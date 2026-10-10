@@ -259,6 +259,35 @@ details li{margin:4px 0}
 .tile .fx{font-size:26px;font-weight:800;line-height:1.1}
 .tile span.ds{font-size:14px;color:var(--dim);min-height:2.4em}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important}}
+/* phones (portrait): everything on one screen, no scrolling */
+@media (max-width:600px){
+  :root{--cw:calc((100vw - 20px - 32px)/5)}
+  .wrap{padding:8px 10px 10px;gap:6px}
+  header{gap:4px 8px;flex-wrap:nowrap;align-items:flex-start}
+  header>div:first-child{flex:none}
+  h1{font-size:21px}#sub{font-size:11px;margin-top:1px}
+  .stats{gap:4px 8px}
+  .gold b{font-size:18px}.gold{gap:3px}.gold i,.gold svg{transform:scale(.75)}
+  .herob b{font-size:16px!important}.herob svg{width:16px;height:16px}
+  .hp{gap:5px}.hp b{font-size:20px!important}.hp small{font-size:11px}.bar{width:52px;height:6px}
+  .stats .aud{padding:2px 6px!important;font-size:11px!important}
+  .dev{padding:2px;gap:3px}.dev .b{padding:2px 5px;font-size:10px}
+  .track{gap:3px;flex-wrap:nowrap;justify-content:center}.track i{width:8px;height:8px;border-radius:2px}.track i.bs{width:12px;height:12px}
+  .row{gap:8px}
+  .msg{font-size:12px;min-height:1.3em;line-height:1.3}
+  .zones{gap:6px}
+  .zones{--cw:calc((100vw - 20px - 32px)/5*.8)}
+  .zone{padding:4px;gap:3px;border-radius:8px}
+  .zone h2{font-size:12px}
+  .hint{font-size:10px;min-height:1.1em;line-height:1.15}
+  .zone.side{width:calc(var(--cw) + 10px)}
+  #camp .info{display:none}
+  #camp{flex-wrap:nowrap;justify-content:center}
+  .wrap>.btns{gap:6px}.wrap>.btns .b{padding:6px 10px;font-size:13px}
+  .wrap>details{display:none}
+  .coach{padding:8px 10px}.coach p{font-size:13px;margin:4px 0}
+}
+@media (max-width:600px) and (max-aspect-ratio:10/18){.zones{--cw:calc((100vw - 20px - 32px)/5)}.wrap{min-height:100dvh;box-sizing:border-box;justify-content:center;gap:9px}}
 </style>
 </head>
 <body>
@@ -313,7 +342,7 @@ details li{margin:4px 0}
       <li>Nová zbraň nahradí starou i s jejími úlovky.</li>
       <li>Lektvar léčí nejvýš do plných životů. Vylepšený lektvar (tmavá karta s ozdobnou lahví) vrátí přebytek: co vyléčí nad maximum, vznikne jako nový lektvar naspod balíčku a po Roomu zmizí. Vypít jich můžeš, kolik chceš.</li>
       <li>Z nedotčeného vyložení můžeš utéct, karty jdou naspod balíčku. Dvakrát po sobě utéct nejde.</li>
-      <li><b>Kampaň:</b> 21 Roomů, každý sedmý je boss. Po 1. a 2. bossovi je Ohniště: vyléčí tě, spálíš v něm monstra, ale obětuješ kartu: z 5 náhodných zbraní a lektvarů jednu (po 2. bossovi dvě) natrvalo odstraníš z balíčku. Životy, zlato a balíček se přenášejí. Po každém Roomu si vybereš jeden ze dvou dalších a jeho karty ti zůstanou v balíčku.</li><li>Kampaň má tři úrovně (Roomy 2–6, 8–13, 15–20) a každá má vlastní nabídku Roomů: Kovárna, Laboratoř, Chodba s pastmi, Studna, Obchodník, Skladiště a dva Roomy s monstrem a 2 zlatými. Kovárna nebo Laboratoř a Obchodník se v každé úrovni nabídnou aspoň jednou. Monstra z Roomů s každou úrovní sílí.</li><li>Obchodník nabídne 3 předměty po 10 zlatech a koupíš nejvýš jeden. Předmět z truhly u něj může být nový, nebo vylepšení toho, který už máš.</li><li>Každý sedmý Room je boss: Chobotnice, Hydra nebo Drak. Bossové i karty, které z nich vzejdou, po vypořádání odcházejí ze hry. Po poraženém bossovi si vybereš odměnu.</li><li>Oheň (s drakem) nejde zabít zbraní. Holýma rukama ho uhasíš, ale vrátí se do balíčku. Když od něj utečeš, zmizí. Utéct jde i z prázdného balíčku, karty se pak jen znovu zamíchají a vyloží.</li><li>Utéct můžeš i tlačítkem na balíčku, dokud z vyložených karet nic nezahraješ.</li><li>Symboly dole na kartě: šipka = když utečeš, karta jde na discard. Meč = po zabití karta odchází ze hry. Ruka = jednorázové použití.</li><li>Kouzlo je karta v balíčku, po seslání se zahodí a v dalším Roomu ho máš znovu. Co které dělá, zjistíš najetím myší.</li>
+      <li><b>Kampaň:</b> 21 Roomů, každý sedmý je boss. Po 1. a 2. bossovi je Ohniště: vyléčí tě, spálíš v něm monstra, ale obětuješ kartu: z 5 náhodných zbraní a lektvarů jednu (po 2. bossovi dvě) natrvalo odstraníš z balíčku. Životy, zlato a balíček se přenášejí. Po každém Roomu si vybereš jeden ze dvou dalších a jeho karty ti zůstanou v balíčku.</li><li>Kampaň má tři úrovně (Roomy 2–6, 8–13, 15–20) a každá má vlastní nabídku Roomů: Kovárna, Laboratoř, Chodba s pastmi, Studna, Obchodník, Skladiště a dva Roomy se zlatem (3–5 zlata, čím víc zlata, tím silnější monstrum). Kovárna nebo Laboratoř a Obchodník se v každé úrovni nabídnou aspoň jednou. Monstra z Roomů s každou úrovní sílí.</li><li>Obchodník nabídne 3 předměty po 10 zlatech a koupíš nejvýš jeden. Předmět z truhly u něj může být nový, nebo vylepšení toho, který už máš.</li><li>Každý sedmý Room je boss: Chobotnice, Hydra nebo Drak. Bossové i karty, které z nich vzejdou, po vypořádání odcházejí ze hry. Po poraženém bossovi si vybereš odměnu.</li><li>Oheň (s drakem) nejde zabít zbraní. Holýma rukama ho uhasíš, ale vrátí se do balíčku. Když od něj utečeš, zmizí. Utéct jde i z prázdného balíčku, karty se pak jen znovu zamíchají a vyloží.</li><li>Utéct můžeš i tlačítkem na balíčku, dokud z vyložených karet nic nezahraješ.</li><li>Symboly dole na kartě: šipka = když utečeš, karta jde na discard. Meč = po zabití karta odchází ze hry. Ruka = jednorázové použití.</li><li>Kouzlo je karta v balíčku, po seslání se zahodí a v dalším Roomu ho máš znovu. Co které dělá, zjistíš najetím myší.</li>
       <li>Minci přetáhni do batohu: dá 1 zlato, vylepšená 2 a pak 3. Když od mince utečeš, je pro tento Room pryč.</li>
       <li>Klíč přetáhni na truhlu (nebo naopak). Truhla nabídne dvě možnosti, často (ne vždy) je jedna z nich vylepšení předmětu nebo mince, které už máš. Každý předmět a mince mají tři úrovně, vyšší úroveň ukazují hvězdičky. Vylepšení se nepřidává jako další karta, jen zlepší tu, kterou máš. Občas v truhle čeká mimik. Když utečeš od klíče nebo od truhly, klíč i truhla jdou na discard.</li>
       <li>Na zbroji může být jen jedna karta (štít, helma, boty, rukavice, plášť nebo prsten), stará se zahodí. Co která dělá, zjistíš najetím myší na kartu.</li><li>Kovárna (zbraně) a Laboratoř (lektvary): jedna ze tří vylosovaných karet dostane natrvalo +1 zdarma, +2 za 5 zlata nebo +3 za 12 zlata. Vylepšená karta má přepsané číslo a tmavší barvu.</li>
@@ -515,7 +544,7 @@ const inc=(o,k,n)=>{o[k]=(o[k]||0)+(n===undefined?1:n);};
 function stat(fn){if(!statOn())return;try{fn(STATS.C);statSave();}catch(e){}}
 function addGold(n){S.gold+=n;if(statOn())S.goldEarn=(S.goldEarn||0)+n;}
 const monAvg=()=>{const m=S.comp.filter(i=>CARDS[i].type==='m'&&!CARDS[i].boss);return m.length?m.reduce((a,i)=>a+CARDS[i].v,0)/m.length:0;};
-const GAMEVER='v1.18';
+const GAMEVER='v1.21';
 const BP=7,NROOM=21; // boss every 7th Room, 3 bosses
 function runRec(end){
   return {run:S.run,rid:S.rid,ver:GAMEVER,date:STATS.cur?STATS.cur.date:new Date().toISOString(),end,rooms:end==='win'?NROOM:Math.max(0,(S.roomNo||1)-1),goldEarn:S.goldEarn||0,goldMax:S.goldMax||0,flees:S.flees||0,removed:S.removed||0,dia:S.diaGain||0,bosses:S.bossK||[],bossDeath:end==='dead'&&S.boss?S.bossKind:null,by:end==='dead'?S.lastBy||'?':null,dev:!!S.dev,hero:S.heroUsed||0,deck:S.comp.length,mon:+monAvg().toFixed(2),maxHp:S.max};
@@ -630,19 +659,22 @@ function mkShop(r){
 const GOLDROOMS=['Vinný sklep','Krypta'];
 // each campaign level (Rooms 2-4, 6-9, 11-14) draws from its own pool; monsters grow with the level
 const MV=[[8,10],[11,13],[14,17]],BATV=[[2,3],[3,4],[5,6]];
-// difficulty grows with the Room number: from 8-11 in Room 2, every odd Room +1 to both bounds, every even Room +1 to the upper bound
-const RR=nr=>[8+Math.floor((nr-1)/2),9+nr];
-const HAZ=nr=>Math.floor((nr-2)/3),BATN=nr=>4+Math.floor((nr-2)/4),GHN=nr=>3+Math.floor((nr-2)/5);
+// difficulty grows with the Room number: 7-10 in Room 2, every odd Room +1 to both bounds, every second odd Room (5, 9, 13, 17) +1 more to the upper bound
+const RR=nr=>[7+Math.floor((nr-1)/2),10+Math.floor((nr-1)/2)+Math.floor((nr-1)/4)];
+const HAZ=nr=>Math.floor((nr-2)/4),BATN=nr=>4+Math.floor((nr-2)/4),GHN=nr=>3+Math.floor((nr-2)/5);
 const beast=nr=>rnd(2)?mkBat(BATN(nr)):mkGhost(GHN(nr));
-function monsAt(nr,hi){
-  const [l,u]=RR(nr),m=(l+u)/2,a=hi?Math.ceil(m):l,b=hi?u:Math.floor(m),T=a+rnd(b-a+1);
+function monsAt(nr,hi,band){
+  const [l,u]=RR(nr),m=(l+u)/2;let a=hi?Math.ceil(m):l,b=hi?u:Math.floor(m);
+  if(band!=null){const w=(u-l+1)/3;a=l+Math.floor(w*band);b=band===2?u:Math.max(a,l+Math.floor(w*(band+1))-1);}
+  const T=a+rnd(b-a+1);
   if(T>20||Math.random()<.3){const lo=Math.max(2,T-20),up=Math.min(20,T-2),x=lo+rnd(up-lo+1);return [mk('m',x,su()),mk('m',T-x,su())];}
   return [mk('m',T,su())];
 }
 // re-roll a tile's dangers for the Room it is offered in (good rooms draw from the upper half, plain ones from the lower half)
 function regenTile(t,nr){
   const lv=Math.min(2,Math.floor((nr-1)/BP));
-  if(t.mon)t.cards=[...monsAt(nr,t.mon==='hi'),...(t.vault?[[()=>mk('m',[3,5,7][lv],su()),()=>mkBat(BATN(nr)),()=>mkGhost(GHN(nr))][rnd(3)]()]:[])];
+  if(t.mon&&t.mon==='lo'&&GOLDROOMS.includes(t.name)){t.gold=3+rnd(3);t.desc='Hned získáš '+t.gold+' zlata.';}
+  if(t.mon)t.cards=[...monsAt(nr,t.mon==='hi',GOLDROOMS.includes(t.name)?t.gold-3:null),...(t.vault?[[()=>mk('m',[3,5,7][lv],su()),()=>mkBat(BATN(nr)),()=>mkGhost(GHN(nr))][rnd(3)]()]:[])];
   else if(t.haz==='trap')t.cards[0]=mkTrap(0,3+HAZ(nr));
   else if(t.haz==='dart')t.cards[0]=mkDart(0,5+HAZ(nr));
   else if(t.haz==='bat')t.cards[0]=beast(nr);
@@ -739,15 +771,20 @@ function cardHTML(id,inRoom,notip){
 let S,busy=false,menuOpen=false,viewDeck=false,viewAdd=false,peek=false;
 // developer tool: every positive card the game can produce, to add to the deck
 function devPool(){
-  if(S.devPool&&S.devPool.length)return S.devPool;
+  if(S.devPool&&S.devPool.length&&S.devPoolV===GAMEVER)return S.devPool;S.devPoolV=GAMEVER;
   const sp=k=>{const i=mk('x',undefined,'✦');CARDS[i].sp=k;return i;};
+  const lv=(t,l)=>{const i=mk(t);CARDS[i].lv=l;return i;},fp=(i,u)=>{CARDS[i].v+=u;CARDS[i].up=u;CARDS[i].fancy=1;return i;},R=(a,b)=>Array.from({length:b-a+1},(_,k)=>a+k);
   const G=[
-    ['Předměty',['s','h','b','l','i','r','t','a'].map(t=>mk(t))],
-    ['Ostatní',[mk('g'),mk('k'),mk('c')]],
+    ['Monstra',R(2,20).map(v=>mk('m',v,v%2?'♣':'♠'))],
+    ['Zvláštní nepřátelé',[mkBat(4),mkBat(6),mkBat(8),mkBat1(),mkGhost(3),mkGhost(4),mkGhost(6),mkTrap(0,3),mkTrap(0,6),mkTrap(0,9),mkDart(0,5),mkDart(0,8),mkDart(0,11),mkFire(1),(()=>{const m=mk('m',7,'♠');CARDS[m].mimic=true;return m;})()]],
+    ['Bossové',[0,1,2].flatMap(l=>['hydra','octo','dragon'].map(k=>mkBoss(k,l)))],
+    ['Předměty',['s','h','b','r','l','i','a','t'].flatMap(t=>[1,2,3].map(l=>lv(t,l)))],
+    ['Poklady',[lv('g',1),lv('g',2),lv('g',3),mk('k'),mk('c')]],
     ['Kouzla',Object.keys(SN).map(sp)],
     ['Od obchodníka',[0,1,2,3,4].map(mkShop)],
-    ['Zbraně',[2,3,4,5,6,7,8,9,10,11,12].map(v=>mk('w',v,'♦'))],
-    ['Lektvary',[2,3,4,5,6,7,8,9,10,11].map(v=>mk('p',v,'♥'))]
+    ['Zbraně',R(2,15).map(v=>mk('w',v,'♦'))],
+    ['Lektvary',R(2,15).map(v=>mk('p',v,'♥'))],
+    ['Vylepšené lektvary',[fp(mk('p',4,'♥'),2),fp(mk('p',6,'♥'),3),fp(mk('p',9,'♥'),3),fp(mkShop(3),1),fp(mkShop(4),1)]]
   ];
   S.devGroups=G;S.devPool=G.flatMap(g=>g[1]);return S.devPool;
 }
@@ -943,7 +980,7 @@ function act(id,z){
   snd(z==='fist'?'fist':z==='potion'?'potion':z==='pack'?'coin':(z==='weapon'||z==='armor')&&t==='m'?'slash':'equip');
   let killed=t==='m';
   if(z==='fist'){hurt(v);if(c.fire){killed=false;S.deck.splice(rnd(S.deck.length+1),0,id);const fr=cardRect(id);fxEmbers(fr);fxDeck([id],fr,true,150);}}
-  else if(z==='potion'){const ov=v-(S.max-S.hp);if((c.fancy||c.up>0)&&ov>0){const n=c.stam?mkX('p',ov,{nm:'Lektvar výdrže',g:'stam',stam:1,temp:1,tip:'Vyléčí a dá tolik výdrže, kolik má síly. Vznikl z přebytku léčení, po tomto Roomu zmizí.'}):c.inv?mkX('p',ov,{nm:'Neviditelnost',inv:1,temp:1,tip:'Vyléčí. Ostatní vyložené karty jdou naspod balíčku. Vznikl z přebytku léčení, po tomto Roomu zmizí.'}):mkX('p',ov,{temp:1,tip:'Vznikl z přebytku léčení, po tomto Roomu zmizí.'});S.deck.push(n);const pr=cardRect(id);fxSparkle(pr,'rgba(98,197,152,1)');fxDeck([n],pr,false,250);say('Přebytek léčení: naspod balíčku přibyl '+nameOf(CARDS[n])+' '+ov+'.');}if(c.stam){S.arm=(S.arm||0)+v;}S.hp=Math.min(S.max,S.hp+v);S.lastPotion=id;}
+  else if(z==='potion'){const ov=v-(S.max-S.hp);if((c.fancy||c.up>0)&&ov>0){const n=c.stam?mkX('p',ov,{nm:'Lektvar výdrže',g:'stam',stam:1,temp:1,tip:'Vyléčí a dá tolik výdrže, kolik má síly. Vznikl z přebytku léčení, po tomto Roomu zmizí.'}):c.inv?mkX('p',ov,{nm:'Neviditelnost',inv:1,temp:1,tip:'Vyléčí. Ostatní vyložené karty jdou naspod balíčku. Vznikl z přebytku léčení, po tomto Roomu zmizí.'}):mkX('p',ov,{temp:1,tip:'Vznikl z přebytku léčení, po tomto Roomu zmizí.'});S.deck.push(n);setTimeout(()=>{const pe=$('ppad').getBoundingClientRect();fxRing(pe,'var(--potion)');fxSparkle(pe,'rgba(98,197,152,1)');fxFloat(pe,'přebytek +'+ov,'var(--potion)');setTimeout(()=>{const g=document.createElement('div');g.innerHTML=cardHTML(n);const c=g.firstElementChild;Object.assign(c.style,{position:'fixed',inset:'auto',left:pe.left+'px',top:pe.top+'px',width:pe.width+'px',height:pe.height+'px',zIndex:72,pointerEvents:'none'});document.body.append(c);c.animate([{transform:'scale(.3)',opacity:0,filter:'brightness(2)'},{transform:'scale(1.08)',opacity:1,filter:'brightness(1.4)'},{transform:'scale(1)',opacity:1,filter:'none'}],{duration:380,easing:'ease-out',fill:'forwards'}).onfinish=()=>{c.remove();fxDeck([n],pe,false,0);};},260);},40);say('Přebytek léčení: naspod balíčku přibyl '+nameOf(CARDS[n])+' '+ov+'.');}if(c.stam){S.arm=(S.arm||0)+v;}S.hp=Math.min(S.max,S.hp+v);S.lastPotion=id;}
   else if(z==='pack'&&t==='a'){
     const slot=S.room.indexOf(id);S.room[slot]=null;S.resolved++;
     const ord='mwpsblhrioatx',ids=shuffle(S.deck.filter(i=>!'gkc'.includes(CARDS[i].type))).slice(0,LV.a[LVI(c)-1]).sort((a,b)=>ord.indexOf(CARDS[a].type)-ord.indexOf(CARDS[b].type)||(val(a)||0)-(val(b)||0));
@@ -1088,6 +1125,7 @@ const fxVenom=r=>{fxGlow(r,'rgba(110,200,110,.45)',900);fxBits(r,['#7fd67a','#4f
 const fxShatter=(r,col)=>{fxBits(r,[col||'#9dbccb','#dcd5c2','#6f8b97'],{n:14,dist:60,size:9,shard:1,fall:1,dur:850});};
 const fxSparkle=(r,col)=>{fxGlow(r,col.replace(/[\d.]+\)$/,'.45)'),800);fxBits(r,[col,'#fff'],{n:10,dist:45,size:4,glow:1,dur:700});};
 const fxDark=r=>{fxGlow(r,'rgba(90,40,120,.7)',1000);fxRing(r,'#7a4aa8');};
+function fxFloat(r,txt,col){if(!r)return;const [x,y]=ctr(r);const d=fxEl(txt,{left:x+'px',top:r.top+'px',color:col,font:'800 15px sans-serif',whiteSpace:'nowrap',textShadow:'0 0 8px #000'});fxGo(d,[{transform:'translate(-50%,0)',opacity:0},{transform:'translate(-50%,-14px)',opacity:1,offset:.2},{transform:'translate(-50%,-46px)',opacity:0}],{duration:1300});}
 // new or moved cards fly from the board into the deck, optionally followed by a shuffle (runs after the board re-renders)
 function fxDeck(ids,r,shuf,delay){setTimeout(()=>{if(!ids.length)return;flyToDeck(ids,Array.isArray(r)?r:[r||$('deck').getBoundingClientRect()],()=>{if(shuf)shuffleAnim(()=>{});});},delay==null?60:delay);}
 // cards from a reveal window travel to the deck (which lifts, as when fleeing)
@@ -1544,6 +1582,7 @@ function offerNext(){
     for(const k in kinds)if(idx.some(i=>kinds[k](S.tiles[i])))S.seen[k]=true;
     if(TUT.on&&S.tutOffer){const g=S.tiles.findIndex(t=>t.gold&&!t.trap),w=S.tiles.findIndex(t=>t.well);if(g>=0&&w>=0){idx.length=0;idx.push(g,w);S.seen={};}S.tutOffer=false;}
     idx.forEach(i=>regenTile(S.tiles[i],nr));
+    {const g=idx.map(i=>S.tiles[i]).filter(t=>GOLDROOMS.includes(t.name));if(g.length===2)while(g[1].gold===g[0].gold)regenTile(g[1],nr);}
     S.offer=idx;stat(C=>idx.forEach(i=>inc(C.roomsOff,S.tiles[i].name)));
   }
   S.screen='choose';S.history=[];render([]);tutEvent('offer');
