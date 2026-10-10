@@ -211,7 +211,7 @@ body.cf .over{padding-bottom:210px}
 @media (min-width:900px){.track{position:fixed;left:28px;top:50%;transform:translateY(-50%);flex-direction:column-reverse;flex-wrap:nowrap;gap:8px}}
 .dv{--cw:62px;--ch:88px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0 18px}
 .dv .mini{position:relative;width:var(--cw);height:var(--ch)}
-.card.up{background:#0d1113;border-color:var(--c)}.card.w.up{--c:#5f8ea6}.card.p.up{--c:#2f9a6c}
+.card.up{background:#0d1113;border-color:var(--c)}.card.w.up{--c:#5f8ea6}.card.p.up{--c:#2f9a6c}.card.p.up.stamc{--c:#a88a86}.card.p.up.invis{--c:#958ea8}
 .card .ic{display:flex;gap:3px;justify-content:center;align-items:center;height:calc(var(--cw)*.17);color:var(--dim)}
 .card .ic svg{width:calc(var(--cw)*.15);height:calc(var(--cw)*.15);flex:none;margin:0;stroke-width:2.4}
 .card.boss{background:radial-gradient(ellipse at 50% 35%,#4a1014 0,#1a0507 70%);--c:#e9b44c;border:3px double #c99a3c;box-shadow:inset 0 0 0 1px #000,inset 0 0 14px #000,0 0 14px #7a1a1acc}
@@ -311,7 +311,7 @@ details li{margin:4px 0}
       <li>Monstrum na holé ruce: ztratíš tolik životů, kolik má síly.</li>
       <li>Monstrum na zbraň: ztratíš sílu monstra minus sílu zbraně. Zbraň pak zabije už jen stejně silné nebo slabší monstrum než to poslední.</li>
       <li>Nová zbraň nahradí starou i s jejími úlovky.</li>
-      <li>Lektvar léčí nejvýš do plných životů. Vypít jich můžeš, kolik chceš.</li>
+      <li>Lektvar léčí nejvýš do plných životů. Vylepšený lektvar (tmavá karta s ozdobnou lahví) vrátí přebytek: co vyléčí nad maximum, vznikne jako nový lektvar naspod balíčku a po Roomu zmizí. Vypít jich můžeš, kolik chceš.</li>
       <li>Z nedotčeného vyložení můžeš utéct, karty jdou naspod balíčku. Dvakrát po sobě utéct nejde.</li>
       <li><b>Kampaň:</b> 21 Roomů, každý sedmý je boss. Po 1. a 2. bossovi je Ohniště: vyléčí tě, spálíš v něm monstra, ale obětuješ kartu: z 5 náhodných zbraní a lektvarů jednu (po 2. bossovi dvě) natrvalo odstraníš z balíčku. Životy, zlato a balíček se přenášejí. Po každém Roomu si vybereš jeden ze dvou dalších a jeho karty ti zůstanou v balíčku.</li><li>Kampaň má tři úrovně (Roomy 2–6, 8–13, 15–20) a každá má vlastní nabídku Roomů: Kovárna, Laboratoř, Chodba s pastmi, Studna, Obchodník, Skladiště a dva Roomy s monstrem a 2 zlatými. Kovárna nebo Laboratoř a Obchodník se v každé úrovni nabídnou aspoň jednou. Monstra z Roomů s každou úrovní sílí.</li><li>Obchodník nabídne 3 předměty po 10 zlatech a koupíš nejvýš jeden. Předmět z truhly u něj může být nový, nebo vylepšení toho, který už máš.</li><li>Každý sedmý Room je boss: Chobotnice, Hydra nebo Drak. Bossové i karty, které z nich vzejdou, po vypořádání odcházejí ze hry. Po poraženém bossovi si vybereš odměnu.</li><li>Oheň (s drakem) nejde zabít zbraní. Holýma rukama ho uhasíš, ale vrátí se do balíčku. Když od něj utečeš, zmizí. Utéct jde i z prázdného balíčku, karty se pak jen znovu zamíchají a vyloží.</li><li>Utéct můžeš i tlačítkem na balíčku, dokud z vyložených karet nic nezahraješ.</li><li>Symboly dole na kartě: šipka = když utečeš, karta jde na discard. Meč = po zabití karta odchází ze hry. Ruka = jednorázové použití.</li><li>Kouzlo je karta v balíčku, po seslání se zahodí a v dalším Roomu ho máš znovu. Co které dělá, zjistíš najetím myší.</li>
       <li>Minci přetáhni do batohu: dá 1 zlato, vylepšená 2 a pak 3. Když od mince utečeš, je pro tento Room pryč.</li>
@@ -387,7 +387,7 @@ const MK={
  gone:'<svg viewBox="0 0 24 24"><path d="M8 16L20 4v4M20 4h-4M4 14l6 6M3 21l4-4"/></svg>',
  arm:'<svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 5-3 8-7 9-4-1-7-4-7-9V6z"/></svg>'
 };
-const UD='Vylepši zbraň nebo lektvar: +1 zdarma, víc za zlato.';
+const UD='Vylepši zbraň nebo lektvar: +1 zdarma, +2 za 5 zlata, +3 za 12 zlata.';
 const STAR='<path d="M32 8l6 16 17 1-13 11 4 17-14-9-14 9 4-17L9 25l17-1z"/>';
 const rnd=n=>Math.floor(Math.random()*n);
 const su=()=>Math.random()<.5?'♠':'♣';
@@ -439,11 +439,14 @@ const G={
  shard:'<path d="M24 14h14l8 12-16 26L16 28z" fill="currentColor" fill-opacity=".2"/><path d="M16 28h30M30 14l-4 14 4 24"/>',
  soul:'<path d="M32 58c-10 0-16-7-16-16 0-10 8-14 10-24 2 5 5 7 7 8 1-6 4-10 9-14-1 8 6 14 6 26 0 12-7 20-16 20z" fill="currentColor" fill-opacity=".25"/><circle cx="27" cy="40" r="2" fill="currentColor"/><circle cx="37" cy="40" r="2" fill="currentColor"/>',
  dia:'<path d="M20 20h24l11 13-23 24L9 33z" fill="currentColor" fill-opacity=".2"/><path d="M9 33h46M26 20l-5 13 11 24M38 20l5 13-11 24"/>',
+ potf:'<path d="M26 8h12M28 8v10M36 8v10"/><path d="M23 18h18" stroke-width="3.2"/><path d="M28 19q-13 6-13 22a17 17 0 0 0 34 0q0-16-13-22" fill="currentColor" fill-opacity=".3"/><path d="M17 40q15 6 30 0"/><path d="M32 27l1.8 3.6 4 .9-4 .9L32 36l-1.8-3.6-4-.9 4-.9z" fill="currentColor"/><path d="M9 30l-3-2M55 30l3-2M10 46H6M54 46h4M32 4v-2"/>',
+ stamf:'<path d="M26 8h12M28 8v10M36 8v10"/><path d="M23 18h18" stroke-width="3.2"/><path d="M28 19q-13 6-13 22a17 17 0 0 0 34 0q0-16-13-22" fill="currentColor" fill-opacity=".3"/><path d="M32 30l7 2.5v4.5c0 4-3 6.5-7 8-4-1.5-7-4-7-8v-4.5z" fill="currentColor" fill-opacity=".45"/><path d="M9 30l-3-2M55 30l3-2M10 46H6M54 46h4"/>',
+ invf:'<path d="M26 8h12M28 8v10M36 8v10"/><path d="M23 18h18" stroke-width="3.2"/><path d="M28 19q-13 6-13 22a17 17 0 0 0 34 0q0-16-13-22" fill="currentColor" fill-opacity=".22" stroke-dasharray="4 3"/><path d="M22 40q10-8 20 0q-10 8-20 0z"/><circle cx="32" cy="40" r="2.6" fill="currentColor"/><path d="M9 30l-3-2M55 30l3-2M10 46H6M54 46h4"/>',
  stam:'<circle cx="32" cy="42" r="15" fill="currentColor" fill-opacity=".2"/><path d="M28 28V16h8v12M25 16h14"/><path d="M32 34l7 2.5v4.5c0 4-3 6.5-7 8-4-1.5-7-4-7-8v-4.5z"/>'
 };
 function art(c){
   const t=Math.min(1,(c.v-2)/8);
-  const sg=c.g?c.g:c.sp?'sp_'+c.sp:c.mimic?'mimic':'';
+  const sg=c.type==='p'&&(c.fancy||c.up>0)?(c.stam?'stamf':c.inv?'invf':'potf'):c.g?c.g:c.sp?'sp_'+c.sp:c.mimic?'mimic':'';
   if(sg)return `<svg viewBox="0 0 64 64">${G[sg]}</svg>`;
   if(c.type==='g')return `<svg viewBox="0 0 64 64"><circle cx="32" cy="34" r="17" fill="currentColor" fill-opacity=".2"/><circle cx="32" cy="34" r="11"/><text x="32" y="39.5" text-anchor="middle" font-size="15" font-weight="800" fill="currentColor" stroke="none" font-family="inherit">${coinG(c)}</text></svg>`;
   if(G[c.type])return `<svg viewBox="0 0 64 64">${G[c.type]}</svg>`;
@@ -464,7 +467,7 @@ function art(c){
 const nameOf=c=>{if(c.mimic)return 'Mimik';const sg=u=>u>0?' +'+u:' −'+(-u);if(c.nm)return c.up?c.nm+sg(c.up):c.nm;if(c.sp)return SN[c.sp];const u=c.up||0,n=c.type==='m'?MNf()[c.v]||'Obr':c.type==='w'?WN[c.v-u]||'Zbraň':c.type==='p'?PN[c.v-u]||'Lektvar':ON[c.type];return u?n+sg(u):n;};
 const label=c=>c.type==='m'?'':c.nm?c.nm:c.type==='w'||c.type==='p'?'':nameOf(c);
 const marks=c=>('gkc'.includes(c.type)||c.fire?MK.flee:'')+(c.gone||c.mimic?MK.gone:'')+(GEAR.includes(c.type)?MK.arm:'');
-const tipOf=c=>c.tip?c.tip:c.mimic?TIP.mimic:c.sp?STIP[c.sp]:ITIP[c.type]?ITIP[c.type](LVI(c)):TIP[c.type]||'';
+const tipOf=c=>c.type==='p'&&(c.fancy||c.up>0)?(c.tip?c.tip+' ':'')+'Vylepšený: co vyléčí nad maximum, vznikne jako nový '+(c.stam?'lektvar výdrže':c.inv?'lektvar neviditelnosti':'lektvar')+' naspod balíčku (do konce Roomu).':c.tip?c.tip:c.mimic?TIP.mimic:c.sp?STIP[c.sp]:ITIP[c.type]?ITIP[c.type](LVI(c)):TIP[c.type]||'';
 const val=id=>{const c=CARDS[id];if(!S)return c.v;if(c.type==='m'&&S.debuff)return Math.max(0,c.v-(S.debuff[id]||0));if((c.type==='w'||c.type==='p')&&S.buff)return c.v+(S.buff[id]||0);return c.v;};
 const mkS=(v,o)=>{const i=mk('m',v,'♠');Object.assign(CARDS[i],o);return i;};
 const BOSS={
@@ -512,7 +515,7 @@ const inc=(o,k,n)=>{o[k]=(o[k]||0)+(n===undefined?1:n);};
 function stat(fn){if(!statOn())return;try{fn(STATS.C);statSave();}catch(e){}}
 function addGold(n){S.gold+=n;if(statOn())S.goldEarn=(S.goldEarn||0)+n;}
 const monAvg=()=>{const m=S.comp.filter(i=>CARDS[i].type==='m'&&!CARDS[i].boss);return m.length?m.reduce((a,i)=>a+CARDS[i].v,0)/m.length:0;};
-const GAMEVER='v1.15';
+const GAMEVER='v1.18';
 const BP=7,NROOM=21; // boss every 7th Room, 3 bosses
 function runRec(end){
   return {run:S.run,rid:S.rid,ver:GAMEVER,date:STATS.cur?STATS.cur.date:new Date().toISOString(),end,rooms:end==='win'?NROOM:Math.max(0,(S.roomNo||1)-1),goldEarn:S.goldEarn||0,goldMax:S.goldMax||0,flees:S.flees||0,removed:S.removed||0,dia:S.diaGain||0,bosses:S.bossK||[],bossDeath:end==='dead'&&S.boss?S.bossKind:null,by:end==='dead'?S.lastBy||'?':null,dev:!!S.dev,hero:S.heroUsed||0,deck:S.comp.length,mon:+monAvg().toFixed(2),maxHp:S.max};
@@ -540,6 +543,7 @@ function openGal(){
     ['Zvláštní nepřátelé',[mkBat(4),mkBat1(),mkGhost(3,1),mkGhost(3,2),mkGhost(3,3),mkTrap(0,3),mkDart(0,5),mkFire(1),(()=>{const m=mk('m',7,'♠');CARDS[m].mimic=true;return m;})(),mkBoss('hydra',0),mkBoss('octo',0),mkBoss('dragon',0)]],
     ['Zbraně',[2,3,4,5,6,7,8,9,10,11,12,13,14,15].map(v=>mk('w',v,'♦'))],
     ['Lektvary',[2,3,4,5,6,7,8,9,10,11,12,13,14,15].map(v=>mk('p',v,'♥'))],
+    ['Vylepšené lektvary',[(()=>{const i=mk('p',8,'♥');Object.assign(CARDS[i],{up:2});return i;})(),(()=>{const i=mkShop(3);CARDS[i].v+=1;CARDS[i].up=1;return i;})(),(()=>{const i=mkShop(4);CARDS[i].v+=1;CARDS[i].up=1;return i;})()]],
     ['Předměty (úrovně 1–3)',['s','h','b','r','l','i','a','t','g'].flatMap(t=>[1,2,3].map(l=>lv(t,l)))],
     ['Poklady',[mk('k'),mk('c')]],
     ['Kouzla',Object.keys(SN).map(sp)],
@@ -650,8 +654,8 @@ function makePool(lv){
   const r=rnd(3);if(r===0)trap.gold=4;else trap.cards.push(r===1?mk('p',[5,7,9][lv],'♥'):mk('w',[5,7,9][lv],'♦'));
   const M='';
   return [
-    {name:'Kovárna',mon:'hi',upg:'w',cards:mons(),desc:'Vylepšíš jednu zbraň.'},
-    {name:'Laboratoř',mon:'hi',upg:'p',cards:mons(),desc:'Vylepšíš jeden lektvar.'},
+    {name:'Kovárna',mon:'hi',upg:'w',cards:mons(),desc:'Vylepšíš jednu zbraň natrvalo: +1 zdarma, +2 za '+UPC[2]+' zlata, +3 za '+UPC[3]+' zlata.'},
+    {name:'Laboratoř',mon:'hi',upg:'p',cards:mons(),desc:'Vylepšíš jeden lektvar natrvalo: +1 zdarma, +2 za '+UPC[2]+' zlata, +3 za '+UPC[3]+' zlata. Vylepšený lektvar navíc vrací přebytek: co vyléčí nad maximum, vznikne jako nový lektvar naspod balíčku (do konce Roomu).'},
     trap,
     {name:'Studna',mon:'hi',well:1,cards:mons(),desc:'Maximum životů +3 a vyléčíš 3.'},
     {name:'Obchodník',mon:'hi',shop:genShop(),cards:mons(),desc:'Uvnitř koupíš jeden ze tří předmětů za '+SHOPC+' zlata.'},
@@ -881,7 +885,7 @@ function effect(id,z){ // {ok,hint,why}
   if(!ok)return{ok:0,why:t==='x'?(sp==='terror'?'Terror přetáhni na monstrum.':sp==='dup'?'Duplikaci přetáhni na vyloženou zbraň, lektvar nebo předmět.':sp==='ench'?'Enchant přetáhni na vyloženou zbraň.':sp==='fball'||sp==='charm'?SN[sp]+' přetáhni na monstrum.':'Kouzlo přetáhni na místo pro kouzla.'):t==='g'?'Mince patří do batohu.':t==='a'?'Mapu přetáhni na batoh.':t==='k'?(inRoom('c')!==undefined?'Klíč přetáhni na truhlu.':'Truhla tu zatím není. Klíč nech ležet.'):t==='c'?(inRoom('k')!==undefined?'Na truhlu přetáhni klíč.':'Klíč tu zatím není. Truhlu nech ležet.'):gear?nameOf(c)+' patří na místo pro zbroj.':t==='t'?'Nářadí přetáhni na zbraň.':t==='p'?'Lektvar patří na místo pro lektvary.':t==='w'?'Zbraň patří na místo pro zbraň.':'Sem monstrum nepatří.'};
   if(z==='spell')return{ok:1,hint:'seslat'};
   if(z==='fist')return{ok:1,hint:'−'+soak(v)+' ♥'};
-  if(z==='potion')return{ok:1,hint:'+'+Math.min(v,S.max-S.hp)+' ♥'+(c.stam?', výdrž +'+v:'')};
+  if(z==='potion')return{ok:1,hint:'+'+Math.min(v,S.max-S.hp)+' ♥'+(c.stam?', výdrž +'+v:'')+((c.fancy||c.up>0)&&v>S.max-S.hp?', přebytek '+(v-(S.max-S.hp))+' naspod':'')};
   if(z==='pack')return t==='a'?{ok:1,hint:S.deck.some(i=>!'gkc'.includes(CARDS[i].type))?'vybrat z balíčku':'v balíčku nic není'}:{ok:1,hint:'+'+coinG(c)+' '+zlT(coinG(c))};
   if(z==='armor'){
     if(gear)return{ok:1,hint:arm?'vyměnit':'nasadit'};
@@ -929,7 +933,7 @@ function onKill(id){
 function act(id,z){
   if(!tutAllow('act',id,z))return false;
   const e=effect(id,z);
-  if(!e.ok){say(e.why);return false;}
+  if(!e.ok){say(e.why);tutEvent('fail',{id,z});return false;}
   TUT.last={id,z};
   S.history.push(snap());
   const c=CARDS[id],before=S.hp,t=c.type,arm=armT(),v=val(id);
@@ -939,7 +943,7 @@ function act(id,z){
   snd(z==='fist'?'fist':z==='potion'?'potion':z==='pack'?'coin':(z==='weapon'||z==='armor')&&t==='m'?'slash':'equip');
   let killed=t==='m';
   if(z==='fist'){hurt(v);if(c.fire){killed=false;S.deck.splice(rnd(S.deck.length+1),0,id);const fr=cardRect(id);fxEmbers(fr);fxDeck([id],fr,true,150);}}
-  else if(z==='potion'){if(c.stam){S.arm=(S.arm||0)+v;}S.hp=Math.min(S.max,S.hp+v);S.lastPotion=id;}
+  else if(z==='potion'){const ov=v-(S.max-S.hp);if((c.fancy||c.up>0)&&ov>0){const n=c.stam?mkX('p',ov,{nm:'Lektvar výdrže',g:'stam',stam:1,temp:1,tip:'Vyléčí a dá tolik výdrže, kolik má síly. Vznikl z přebytku léčení, po tomto Roomu zmizí.'}):c.inv?mkX('p',ov,{nm:'Neviditelnost',inv:1,temp:1,tip:'Vyléčí. Ostatní vyložené karty jdou naspod balíčku. Vznikl z přebytku léčení, po tomto Roomu zmizí.'}):mkX('p',ov,{temp:1,tip:'Vznikl z přebytku léčení, po tomto Roomu zmizí.'});S.deck.push(n);const pr=cardRect(id);fxSparkle(pr,'rgba(98,197,152,1)');fxDeck([n],pr,false,250);say('Přebytek léčení: naspod balíčku přibyl '+nameOf(CARDS[n])+' '+ov+'.');}if(c.stam){S.arm=(S.arm||0)+v;}S.hp=Math.min(S.max,S.hp+v);S.lastPotion=id;}
   else if(z==='pack'&&t==='a'){
     const slot=S.room.indexOf(id);S.room[slot]=null;S.resolved++;
     const ord='mwpsblhrioatx',ids=shuffle(S.deck.filter(i=>!'gkc'.includes(CARDS[i].type))).slice(0,LV.a[LVI(c)-1]).sort((a,b)=>ord.indexOf(CARDS[a].type)-ord.indexOf(CARDS[b].type)||(val(a)||0)-(val(b)||0));
@@ -1355,7 +1359,7 @@ function onAct(e){
   }else if(a==='up'){
     const n=+b.dataset.n,c=CARDS[S.upOffer[+b.dataset.i]],cost=S.upFree?0:UPC[n];
     if(S.gold<cost)return;
-    S.gold-=cost;c.v+=n;c.up=(c.up||0)+n;if(!S.upFree)stat(C=>{inc(C.upg,'+'+n+(c.type==='w'?' zbraň':' lektvar'));});S.upOffer=null;snd('upgrade');
+    S.gold-=cost;c.v+=n;c.up=(c.up||0)+n;if(c.type==='p')c.fancy=1;if(!S.upFree)stat(C=>{inc(C.upg,'+'+n+(c.type==='w'?' zbraň':' lektvar'));});S.upOffer=null;snd('upgrade');
     if(S.upFree){S.upFree=false;offerNext();}else startRoom();
   }else if(a==='rew'){
     const k=REW[+b.dataset.i].k,P=S.rewPrev;stat(C=>inc(C.rewPick,k));
@@ -1364,7 +1368,7 @@ function onAct(e){
     else if(k==='gold'){S.comp.push(P.g);addGold([10,15][rl]);}
     else if(k==='w')S.comp.push(P.w);
     else if(k==='p')S.comp.push(P.p);
-    else{const a=S.comp.filter(i=>CARDS[i].type==='w'||CARDS[i].type==='p');if(a.length){const id=a[rnd(a.length)],c=CARDS[id];const n0=nameOf(c),v0=c.v,nu=[3,5][rl];c.v+=nu;c.up=(c.up||0)+nu;S.rewUpN=nu;S.rewNote=n0+': '+v0+' → '+c.v+'.';S.rewUp={id,n0,v0};snd('upgrade');S.screen='rewup';modal();return;}}
+    else{const a=S.comp.filter(i=>CARDS[i].type==='w'||CARDS[i].type==='p');if(a.length){const id=a[rnd(a.length)],c=CARDS[id];const n0=nameOf(c),v0=c.v,nu=[3,5][rl];c.v+=nu;c.up=(c.up||0)+nu;if(c.type==='p')c.fancy=1;S.rewUpN=nu;S.rewNote=n0+': '+v0+' → '+c.v+'.';S.rewUp={id,n0,v0};snd('upgrade');S.screen='rewup';modal();return;}}
     afterReward();
   }else if(a==='spell'){stat(C=>inc(C.spellPick,CARDS[S.spOffer[+b.dataset.i]].sp));S.comp.push(S.spOffer[+b.dataset.i]);S.spOffer=null;startRoom();}
   else if(a==='pk'){
@@ -1445,8 +1449,8 @@ const cardSel=id=>`.slot .card[data-id="${id}"]`;
 function startTutorial(){
   newGame('single');
   const used=new Set(),pick=(t,v)=>{const i=S.comp.find(i=>CARDS[i].type===t&&CARDS[i].v===v&&!used.has(i));used.add(i);return i;};
-  const I={m3:pick('m',3),w5:pick('w',5),p4:pick('p',4),m6:pick('m',6),m14:pick('m',14),m13:pick('m',13),m12:pick('m',12),p5:pick('p',5),m4:pick('m',4),m7:pick('m',7),w8:pick('w',8)};
-  const order=[I.m3,I.w5,I.p4,I.m6,I.m14,I.m13,I.m12,I.p5,I.m4,I.m7,I.w8];
+  const I={m3:pick('m',3),w5:pick('w',5),p4:pick('p',4),m6:pick('m',6),m14:pick('m',14),m13:pick('m',13),m12:pick('m',12),p5:pick('p',5),m6b:pick('m',6),m4:pick('m',4),m7:pick('m',7),w8:pick('w',8)};
+  const order=[I.m3,I.w5,I.p4,I.m6,I.m14,I.m13,I.m12,I.p5,I.m6b,I.m7,I.w8,I.m4];
   S.deck=[...order,...shuffle(S.deck.filter(i=>!order.includes(i)))];
   TUT.ids=I;TUT.on=true;TUT.i=0;TUT.d=0;TUT.snaps=[];TUT.camp=false;
   const B='Základy',is=(k,id,z)=>(kind,i,zz)=>kind===k&&i===id&&zz===z;
@@ -1463,7 +1467,10 @@ function startTutorial(){
     {part:B,hl:()=>['#deck'],only:k=>k==='next',nag:'Klikni na balíček.',wait:e=>e==='deal',t:'Vyřešil jsi 3 karty a lektvar zůstal na další kolo. Klikni na balíček a vylož další karty.'},
     {part:B,hl:()=>['#main','#dflee'],only:k=>k==='skip',nag:'Tady se vyplatí utéct.',wait:e=>e==='skip',t:'Tři silná monstra najednou, to by bolelo. Z nedotčeného vyložení můžeš utéct: všechny 4 karty půjdou naspod balíčku. Klikni na Utéct.'},
     {part:B,hl:()=>[cardSel(I.p5),'#zp'],only:is('act',I.p5,'potion'),nag:'Přetáhni lektvar na místo Lektvar.',wait:(e,d)=>e==='act'&&d&&d.id===I.p5,t:'Dvakrát po sobě utéct nejde, tohle vyložení musíš vyřešit. Přetáhni lektvar na místo Lektvar. Vyléčí tě, nejvýš do 20 životů.'},
-    {part:B,free:1,wait:e=>e==='act',hl:()=>[cardSel(I.m7),cardSel(I.w8)],t:'Monstrum se silou 7 už svou zbraní nezabiješ, poslední úlovek měl sílu 6. Můžeš ho vzít holýma rukama, nebo nejdřív vzít meč 8. Nová zbraň nahradí starou i s jejími úlovky. Zahraj jednu z karet.'},
+    {part:B,hl:()=>[cardSel(I.m6b),'#zw'],only:is('act',I.m6b,'weapon'),nag:'Přetáhni druhé monstrum 6 na zbraň.',wait:(e,d)=>e==='act'&&d&&d.id===I.m6b,t:'Na jednu zbraň můžeš skládat další monstra, dokud mají stejnou nebo nižší sílu než poslední úlovek. Přetáhni druhé monstrum 6 na zbraň. Je stejně silné jako poslední úlovek, takže to projde: ztratíš 6 − 5 = 1 život.'},
+    {part:B,hl:()=>['#zw'],t:'Na zbrani teď leží dvě monstra se silou 6. Další monstrum na ni smí mít sílu nejvýš 6, třeba 6, 4 nebo 2.'},
+    {part:B,hl:()=>[cardSel(I.m7),'#zw'],only:is('act',I.m7,'weapon'),nag:'Zkus přetáhnout monstrum 7 na zbraň.',wait:(e,d)=>e==='fail'&&d&&d.id===I.m7,t:'A teď zkus přetáhnout monstrum se silou 7 na zbraň. Uvidíš, že to nepůjde: 7 je víc než poslední úlovek 6.'},
+    {part:B,free:1,wait:e=>e==='act',hl:()=>[cardSel(I.m7),cardSel(I.w8)],t:'Přesně tak, zbraň ho nevezme. Silnější monstrum vezmeš holýma rukama, nebo si nejdřív vezmeš novou zbraň: meč 8 nahradí starou zbraň i s jejími úlovky a zabije cokoli do síly 8. Zahraj jednu z karet.'},
     {part:B,free:1,wait:e=>e==='deal'&&++TUT.d>=2,t:'Teď hraj sám, dokud se dvakrát nevyloží nové karty. Tip: Vrátit tah vrací tahy v rámci jednoho vyložení.'},
     {part:B,btn:'Na Výpravu',exit:startTutCampaign,t:'Základy umíš. Teď ti ukážu hlavní režim, Výpravu.'}
   ];
