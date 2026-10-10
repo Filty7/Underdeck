@@ -287,7 +287,14 @@ details li{margin:4px 0}
   .wrap>details{display:none}
   .coach{padding:8px 10px}.coach p{font-size:13px;margin:4px 0}
 }
-@media (max-width:600px) and (max-aspect-ratio:10/18){.zones{--cw:calc((100vw - 20px - 32px)/5)}.wrap{min-height:100dvh;box-sizing:border-box;justify-content:center;gap:9px}}
+@media (max-width:600px) and (max-aspect-ratio:10/18){.zones{--cw:calc((100vw - 20px - 32px)/5)}.wrap{justify-content:center;gap:9px}}
+/* phones: the board never scrolls or bounces (iOS); overlays keep their own scrolling */
+@media (max-width:600px){
+  html,body{height:100%;overflow:hidden;overscroll-behavior:none;-webkit-text-size-adjust:100%}
+  body{position:fixed;inset:0;width:100%;padding:0!important}
+  .wrap{height:100%;height:100dvh;box-sizing:border-box;overflow:hidden;padding-top:calc(8px + env(safe-area-inset-top));padding-bottom:calc(8px + env(safe-area-inset-bottom));padding-left:calc(10px + env(safe-area-inset-left));padding-right:calc(10px + env(safe-area-inset-right));touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+  .over,#gal,#rpt{overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y}
+}
 </style>
 </head>
 <body>
@@ -544,7 +551,7 @@ const inc=(o,k,n)=>{o[k]=(o[k]||0)+(n===undefined?1:n);};
 function stat(fn){if(!statOn())return;try{fn(STATS.C);statSave();}catch(e){}}
 function addGold(n){S.gold+=n;if(statOn())S.goldEarn=(S.goldEarn||0)+n;}
 const monAvg=()=>{const m=S.comp.filter(i=>CARDS[i].type==='m'&&!CARDS[i].boss);return m.length?m.reduce((a,i)=>a+CARDS[i].v,0)/m.length:0;};
-const GAMEVER='v1.21';
+const GAMEVER='v1.22';
 const BP=7,NROOM=21; // boss every 7th Room, 3 bosses
 function runRec(end){
   return {run:S.run,rid:S.rid,ver:GAMEVER,date:STATS.cur?STATS.cur.date:new Date().toISOString(),end,rooms:end==='win'?NROOM:Math.max(0,(S.roomNo||1)-1),goldEarn:S.goldEarn||0,goldMax:S.goldMax||0,flees:S.flees||0,removed:S.removed||0,dia:S.diaGain||0,bosses:S.bossK||[],bossDeath:end==='dead'&&S.boss?S.bossKind:null,by:end==='dead'?S.lastBy||'?':null,dev:!!S.dev,hero:S.heroUsed||0,deck:S.comp.length,mon:+monAvg().toFixed(2),maxHp:S.max};
@@ -1103,7 +1110,8 @@ function loot(take,only){
     if(boss)shuffleAnim(()=>finish());else finish();
   });
 }
-addEventListener('pagehide',saveRun);document.addEventListener('visibilitychange',()=>{if(document.hidden)saveRun();});
+addEventListener('pagehide',saveRun);
+document.addEventListener('touchmove',e=>{if(innerWidth>600)return;if(e.target.closest&&e.target.closest('.over,#gal,#rpt,#menu,#audp,textarea'))return;e.preventDefault();},{passive:false});document.addEventListener('visibilitychange',()=>{if(document.hidden)saveRun();});
 // ---------- small visual effects (visual only, game state is already updated) ----------
 const cardRect=id=>{const e=document.querySelector(`.slot .card[data-id="${id}"]`)||document.querySelector(`.card[data-id="${id}"]`);return e?e.getBoundingClientRect():null;};
 function fxEl(html,css){const d=document.createElement('div');d.innerHTML=html||'';Object.assign(d.style,css);$('fx').append(d);return d;}
