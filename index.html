@@ -39,7 +39,9 @@ h1{font-family:'Pirata One',var(--display);font-weight:700;font-size:34px;margin
 .gold{display:flex;align-items:center;gap:6px;color:var(--torch)}
 .gold i{width:18px;height:18px;border-radius:50%;border:2px solid var(--torch);display:inline-block;box-sizing:border-box}
 .bar{width:100px;height:8px;background:var(--slab2);border-radius:4px;overflow:hidden}
-.bar i{display:block;height:100%;background:var(--monster);transition:width .3s}
+.bar i{display:block;height:100%;background:var(--monster);transition:width .3s}.bar{position:relative}#hph.dead{color:#e8dcc8!important;animation:hpd .9s infinite alternate}@keyframes hpd{to{opacity:.45}}#hpg{position:absolute;top:0;width:0;transition:none}#hpx{position:absolute;top:100%;z-index:3;background:var(--stone);padding:0 4px;border-radius:4px;margin-top:2px;font-size:13px;font-weight:800;color:var(--dim);pointer-events:none;white-space:nowrap;font-variant-numeric:tabular-nums}#hpx.lo{color:var(--monster)}#hpx.hi{color:var(--potion)}
+#hpn,#gold,#dian,#heron{display:inline-block;min-width:2ch;text-align:right}#gold,#dian,#heron{text-align:left}
+.dmix{position:absolute;left:2px;right:2px;top:calc(100% + 9px);height:3px;display:flex;gap:1px;border-radius:2px;overflow:hidden;opacity:.75;pointer-events:none}.dmix i{display:block;height:100%}.deck.lift .dmix,.deck.empty .dmix{opacity:0}
 .float{position:absolute;right:0;top:-6px;font-weight:800;font-size:22px;pointer-events:none;animation:fl 1s forwards}
 @keyframes fl{to{transform:translateY(-28px);opacity:0}}
 .hit{animation:hit .35s}
@@ -222,7 +224,7 @@ body.cf .over{padding-bottom:210px}
 .zones{display:flex;gap:10px;align-items:stretch}
 .zone{border:1px solid var(--line);border-radius:10px;background:#1a2023;padding:8px;display:flex;flex-direction:column;gap:6px;align-items:center;min-width:0;transition:border-color .15s,background .15s}
 .zone h2{font-family:var(--display);font-weight:500;font-size:17px;margin:0;letter-spacing:.04em;text-align:center;line-height:1.1}
-.zone .hint{font-size:13px;color:var(--dim);min-height:1.2em;text-align:center;font-variant-numeric:tabular-nums}
+.zone .hint{font-size:13px;color:var(--dim);line-height:1.2;height:2.4em;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;font-variant-numeric:tabular-nums}
 .zone.ok{border-color:var(--torch);background:#2a2618}.zone.ok .hint{color:var(--torch);font-weight:800}
 .zone.no{opacity:.45}
 .zone.side{flex:none;width:calc(var(--cw) + 16px);box-sizing:border-box}
@@ -281,7 +283,7 @@ details li{margin:4px 0}
   .zones{--cw:calc((100vw - 20px - 32px)/5*.8)}
   .zone{padding:4px;gap:3px;border-radius:8px}
   .zone h2{font-size:12px}
-  .hint{font-size:10px;min-height:1.1em;line-height:1.15}
+  .hint{font-size:10px;line-height:1.15}.zone .hint{height:2.3em}#hpx{font-size:10px;margin-top:1px}.dmix{top:calc(100% + 7px);height:2px}
   .zone.side{width:calc(var(--cw) + 10px)}
   #camp .info{display:none}
   #camp{flex-wrap:nowrap;justify-content:center}
@@ -309,13 +311,13 @@ details li{margin:4px 0}
       <div class="gold" id="goldbox" title="Zlato"><i></i><b id="gold">0</b></div><div class="gold diab" id="diabox" title="Diamanty (zůstávají mezi runy)"><svg viewBox="0 0 64 64"></svg><b id="dian">0</b></div><span id="herob" class="herob tp" hidden data-tip="Hero životy: když padneš, ztratíš jeden a Room začneš znovu od vchodu."><svg viewBox="0 0 64 64"></svg><b id="heron">3</b></span>
       <button class="b aud" title="Hlasitost hudby a zvuků" style="padding:4px 9px;font-size:13px">♪ zvuk</button>
       <span class="dev"><button class="b" id="cheat" title="Vývojářská funkce: vyléčí na maximum">♥ max</button><button class="b" id="jumpBoss" title="Vývojářská funkce: skočit na nejbližší boss Room">⇥ boss</button><button class="b" id="devAdd" title="Vývojářská funkce: přidat kartu do balíčku">+ karta</button></span>
-      <div class="hp" id="hp" aria-live="polite"><span aria-hidden="true" style="color:var(--monster);font-size:24px">♥</span><b id="hpn">20</b><small id="hpm">/ 20</small><div class="bar"><i id="hpbar"></i></div><span id="armb" class="armb tp" style="visibility:hidden" data-tip="Výdrž: každé zranění snížíš o tuto hodnotu, pak výdrž klesne o 1. Platí jen do konce Roomu."><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 5-3 8-7 9-4-1-7-4-7-9V6z"/></svg><b id="armn">0</b></span></div>
+      <div class="hp" id="hp" aria-live="polite"><span id="hph" aria-hidden="true" style="color:var(--monster);font-size:24px;display:inline-block;width:1.1em;text-align:center">♥</span><b id="hpn">20</b><small id="hpm">/ 20</small><div class="bar"><i id="hpbar"></i><i id="hpg"></i></div><span id="hpx" hidden></span><span id="armb" class="armb tp" style="visibility:hidden" data-tip="Výdrž: každé zranění snížíš o tuto hodnotu, pak výdrž klesne o 1. Platí jen do konce Roomu."><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 5-3 8-7 9-4-1-7-4-7-9V6z"/></svg><b id="armn">0</b></span></div>
     </div>
   </header>
   <nav class="track" id="track" aria-label="Postup kampaní" hidden></nav>
 
   <div class="row room" id="row">
-    <button class="deck" id="deck" aria-label="Balíček"><b id="cnt">44</b><span class="dflee" id="dflee" hidden>Utéct</span></button>
+    <button class="deck" id="deck" aria-label="Balíček"><span class="dmix" id="dmix" aria-hidden="true"></span><b id="cnt">44</b><span class="dflee" id="dflee" hidden>Utéct</span></button>
     <div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div>
   </div>
 
@@ -559,7 +561,7 @@ const inc=(o,k,n)=>{o[k]=(o[k]||0)+(n===undefined?1:n);};
 function stat(fn){if(!statOn())return;try{fn(STATS.C);statSave();}catch(e){}}
 function addGold(n){S.gold+=n;if(statOn())S.goldEarn=(S.goldEarn||0)+n;}
 const monAvg=()=>{const m=S.comp.filter(i=>CARDS[i].type==='m'&&!CARDS[i].boss);return m.length?m.reduce((a,i)=>a+CARDS[i].v,0)/m.length:0;};
-const GAMEVER='v1.27';
+const GAMEVER='v1.30';
 const BP=7,NROOM=21; // boss every 7th Room, 3 bosses
 const FR=nr=>nr-Math.floor(nr/BP),NFIGHT=18; // fight-room number 1..18 (bosses excluded)
 function runRec(end){
@@ -600,6 +602,7 @@ function openGal(){
 }
 // patch notes for players: newest first, short and general
 const PATCH=[
+ ['v1.30','11. 10.',['Při přetahování karty lišta životů ukáže, kolik ti zbude (lebka = smrt).','Popisky při přetahování: síla zbraně, účinek zbroje, léčení očarované zbraně.','Pod balíčkem tenký proužek s poměrem druhů karet.','Opraveno poskakování obrazovky při změně životů a při přetahování.']],
  ['v1.27','11. 10.',['Odměna za bosse „+max životů“ už nedává výdrž.','Neviditelnost (síla 4) nyní léčí a oslabí všechny vyložené nepřátele.','Krvavý oltář místo zdvojení lektvaru promění lektvar na výdrž nebo neviditelnost.','Krysa a duch mají nové síly podle patra.','Popisky lektvarů ukazují přesná čísla.','Opraveno poskakování obrazovky při objevení štítu výdrže.','Přidány poznámky k verzím.']],
  ['v1.26','11. 10.',['Monstra ke konci kampaně o něco slabší.']],
  ['v1.25','11. 10.',['Monstra rostou rychleji.','Krypta a Vinný sklep dávají méně zlata.','Krvavý oltář míří na tvou nejslabší kartu.','Klidná cesta přidá do balíčku monstrum.','Krysa při zesílení ukáže animaci.']],
@@ -987,7 +990,7 @@ function effect(id,z){ // {ok,hint,why}
   if(z==='potion')return{ok:1,hint:'+'+Math.min(v,S.max-S.hp)+' ♥'+(c.stam?', výdrž +'+v:'')+(c.inv?', nepřátelé −'+INVD(v):'')+((c.fancy||c.up>0)&&v>S.max-S.hp?', přebytek '+(v-(S.max-S.hp))+' naspod':'')};
   if(z==='pack')return t==='a'?{ok:1,hint:S.deck.some(i=>!'gkc'.includes(CARDS[i].type))?'vybrat z balíčku':'v balíčku nic není'}:{ok:1,hint:'+'+coinG(c)+' '+zlT(coinG(c))};
   if(z==='armor'){
-    if(gear)return{ok:1,hint:arm?'vyměnit':'nasadit'};
+    if(gear)return{ok:1,hint:(arm?'vyměnit: ':'')+gearTxt(c)};
     const al=S.armor!==null?LVI(CARDS[S.armor]):1;
     if(arm==='s')return{ok:1,hint:'−'+soak(Math.floor(v*LV.s[al-1]))+' ♥'};
     if(arm==='h')return{ok:1,hint:'−'+LV.h[al-1]+', navrch balíčku'};
@@ -995,12 +998,12 @@ function effect(id,z){ // {ok,hint,why}
     if(arm==='r')return v>LV.r[al-1]?{ok:0,why:'Rukavice zvládnou monstrum se silou nejvýš '+LV.r[al-1]+'.'}:{ok:1,hint:'2× '+Math.floor(v/2)+' naspod'};
     return{ok:0,why:arm==='i'?'Prsten monstrum nezastaví.':arm==='l'?'Plášť monstrum nezastaví.':arm==='a'?'Mapa pomáhá jen při útěku.':'Na zbroji nic nemáš.'};
   }
-  if(t==='w')return{ok:1,hint:w?'vyměnit':'vzít'};
+  if(t==='w')return{ok:1,hint:(w?'vyměnit':'vzít')+' · síla '+v};
   if(t==='t')return w?{ok:1,hint:w.kills.length?'opravit':'nic k opravě'}:{ok:0,why:'Nemáš zbraň. Nářadí můžeš zahodit do batohu.'};
   if(!w)return{ok:0,why:'Nemáš zbraň.'};
   const wc=CARDS[w.id],dm=soak(Math.max(0,v-wpow()));
   if(v>limit())return wc.wk==='spear'?{ok:1,hint:'−'+dm+' ♥ · kopí se zlomí'}:{ok:0,why:'Zbraň už zvládne jen sílu '+limit()+' a méně.'};
-  return{ok:1,hint:'−'+dm+' ♥'+((S.ls||[]).includes(w.id)||wc.blood?' · zbraň +1, +1 ♥':'')};
+  const en=(S.ls||[]).includes(w.id)||wc.blood,hl=en&&S.hp-dm>0&&S.hp-dm<S.max?1:0;return{ok:1,hint:'−'+dm+' ♥'+(en?' · zbraň +1'+(hl?', +1 ♥':''):'')};
 }
 const soak=d=>d>0&&S.arm>0?Math.max(0,d-S.arm):d;
 function hurt(d){if(d<=0)return;if(S.arm>0){d=Math.max(0,d-S.arm);S.arm--;}S.hp-=d;}
@@ -1289,6 +1292,7 @@ function status(){
   else t='Vyřeš ještě '+(count()-1)+' z '+count()+' karet.'+(S.resolved===0&&live().some(i=>CARDS[i].trap)?' Past ti nedovolí utéct.':'')+(S.resolved===0&&S.streak>0?(canSkip()?' Prsten ti dovolí utéct ještě jednou.':' Znovu utéct nejde.'):'');
   $('msg').textContent=t;
 }
+const gearTxt=c=>{const al=LVI(c);return {s:'utržíš '+LV.s[al-1]*100+' %',b:'naspod, léčí '+LV.b[al-1]*100+' %',l:'útěk: vybereš '+al,h:'monstrum −'+LV.h[al-1],r:'rozpůlí do '+LV.r[al-1],o:'spálí monstrum',i:'útěk: léčí'}[c.type]||'';};
 function hints(){
   const w=S.weapon;
   $('fh').textContent='plné zranění';
@@ -1296,7 +1300,7 @@ function hints(){
   if(w&&(S.ls||[]).includes(w.id))$('wh').textContent+=' · očarovaná';
   $('sh').textContent='sešli kouzlo';
   $('ph').textContent='léčí do '+S.max;
-  {const al=S.armor!==null?LVI(CARDS[S.armor]):1;$('ah').textContent={s:'utržíš '+LV.s[al-1]*100+' %',b:'naspod, léčí '+LV.b[al-1]*100+' %',l:'útěk: vybereš '+al,h:'monstrum −'+LV.h[al-1],r:'rozpůlí do '+LV.r[al-1],o:'spálí monstrum',i:'útěk: léčí','':'bez zbroje'}[armT()];}
+  $('ah').textContent=S.armor!==null?gearTxt(CARDS[S.armor]):'bez zbroje';
   $('bh').textContent='zlato: '+S.gold;
 }
 function render(fresh,dhp){
@@ -1313,7 +1317,7 @@ function render(fresh,dhp){
     });
     setTimeout(()=>{busy=false;buttons();},320+fresh.length*110);
   }
-  const d=$('deck');$('cnt').textContent=S.deck.length;
+  const d=$('deck');$('cnt').textContent=S.deck.length;deckMix();
   d.classList.toggle('empty',!S.deck.length);d.classList.toggle('call',needDeal()&&!busy);
   d.setAttribute('aria-label','Balíček, zbývá '+S.deck.length+' karet');
   $('sub').textContent=(TUT.on?'Tutoriál · ':'')+(camp?(S.boss?'Boss '+Math.ceil(S.roomNo/BP)+'/3':'Room '+FR(S.roomNo)+'/'+NFIGHT)+' · '+S.tileName:'Klasická hra');
@@ -1711,10 +1715,24 @@ $('over').addEventListener('pointercancel',mdrop);
 
 // drag and drop
 const zones=[$('zf'),$('zw'),$('zp'),$('za'),$('zb'),$('zs')];
+// projected HP while a card hovers over a zone: parsed from the zone hint (−X ♥ / +X ♥)
+function hpPrev(hint){
+  const x=$('hpx'),g=$('hpg');
+  const m=hint?[...hint.matchAll(/([−+])(\d+) ♥/g)]:[];
+  $('hph').textContent='♥';$('hph').classList.remove('dead');if(!m.length){x.hidden=true;g.style.width='0';$('hpbar').style.width=S.hp/S.max*100+'%';return;}
+  let n=S.hp;m.forEach(a=>{n+=a[1]==='+'?+a[2]:-a[2];n=Math.min(S.max,n);});n=Math.max(0,n);
+  x.hidden=true;if(n<=0){$('hph').textContent='☠';$('hph').classList.add('dead');}
+  const lo=Math.min(n,S.hp),hi=Math.max(n,S.hp);$('hpbar').style.width=lo/S.max*100+'%';
+  Object.assign(g.style,{left:lo/S.max*100+'%',width:(hi-lo)/S.max*100+'%',background:n<S.hp?'repeating-linear-gradient(45deg,#d0604f 0 3px,#d0604f55 3px 6px)':'var(--potion)'});
+}
+// thin bar under the deck: share of card kinds left in the deck
+const MIXC=[['m','var(--monster)'],['w','var(--weapon)'],['p','var(--potion)'],['gkc','var(--torch)'],['sbtlharoi','var(--armor)'],['x','var(--spell)']];
+function deckMix(){const e=$('dmix');if(!e)return;const n=S.deck.length;if(!n){e.innerHTML='';return;}
+  e.innerHTML=MIXC.map(([ts,col])=>{const k=S.deck.filter(i=>ts.includes(CARDS[i].type)).length;return k?`<i style="flex:${k};background:${col}"></i>`:'';}).join('');}
 let drag=null;
 const targetEls=id=>targetIds(id).map(i=>row.querySelector(`.card[data-id="${i}"]`)).filter(Boolean);
 function mark(id){zones.forEach(z=>{const e=effect(id,z.dataset.z);z.classList.add(e.ok?'ok':'no');if(e.ok)z.querySelector('.hint').textContent=e.hint;});}
-function unmark(){zones.forEach(z=>z.classList.remove('ok','no'));row.querySelectorAll('.glow').forEach(g=>g.classList.remove('glow'));hints();}
+function unmark(){hpPrev(null);zones.forEach(z=>z.classList.remove('ok','no'));row.querySelectorAll('.glow').forEach(g=>g.classList.remove('glow'));hints();}
 const inside=(el,e)=>{const r=el.getBoundingClientRect();return r.width&&e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom;};
 const row=$('row');
 row.addEventListener('pointerdown',e=>{
@@ -1729,6 +1747,7 @@ row.addEventListener('pointermove',e=>{
   const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
   if(!drag.moved){if(Math.hypot(dx,dy)<5)return;drag.moved=true;drag.el.classList.add('drag');mark(drag.id);}
   drag.el.style.transform=`translate(${dx}px,${dy}px) rotate(${Math.max(-6,Math.min(6,dx/20))}deg)`;
+  {const z=zones.find(z=>inside(z,e)),ef=z?effect(drag.id,z.dataset.z):null;hpPrev(ef&&ef.ok?ef.hint:null);}
 });
 function drop(e,cancel){
   if(!drag)return;
