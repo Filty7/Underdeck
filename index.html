@@ -607,7 +607,7 @@ const inc=(o,k,n)=>{o[k]=(o[k]||0)+(n===undefined?1:n);};
 function stat(fn){if(!statOn())return;try{fn(STATS.C);statSave();}catch(e){}}
 function addGold(n){S.gold+=n;if(statOn())S.goldEarn=(S.goldEarn||0)+n;}
 const monAvg=()=>{const m=S.comp.filter(i=>CARDS[i].type==='m'&&!CARDS[i].boss);return m.length?m.reduce((a,i)=>a+CARDS[i].v,0)/m.length:0;};
-const GAMEVER='v1.71';
+const GAMEVER='v1.80';
 const BP=7,NROOM=21; // boss every 7th Room, 3 bosses
 const FR=nr=>nr-Math.floor(nr/BP),NFIGHT=18; // fight-room number 1..18 (bosses excluded)
 function runRec(end){
@@ -649,6 +649,7 @@ function openGal(){
 }
 // patch notes for players: newest first, short and general
 const PATCH=[
+ ['v1.80','13. 10.',['Po každém bossovi podzemí ztemní: základní monstra v balíčku natrvalo +1.','Obchod: základní zbraně a lektvary mají menší rozptyl síly.','Sekera je silnější hned od začátku a má menší rozptyl, Luk a Kopí mají polovinu její síly.']],
  ['v1.71','13. 10.',['Pevné odměny: truhla vždy 4 zlata, Krypta 3–4, Krysí král 6.','Pevné ceny v obchodě, silnější karty jen o kousek dražší. Kouzlo 13, relikvie 15.','Mince už nejdou vylepšit v Kovárně. Boss může nabídnout vylepšení mince na 2 zlata.','Neviditelnost neoslabuje oheň.','Urna duší označí monstra, ze kterých tě vyléčí.','Na mobilu už u tlačítka Utéct nezůstává svítit popisek.']],
  ['v1.70','13. 10.',['Na začátku výpravy si vybereš 1 ze 2 relikvií.','Relikvie mají úrovně 1–3. Nové: Bylinkářův váček, Krystal many, Grimoár, Urna duší; Kladivo, Pěsti, Plášť a Ozvěna předělané.','Obchod je jen na Klidné cestě (karty, kouzlo, relikvie), nákup jde vrátit. Kovárna vylepšuje za zlato.','Truhla dává jen zlato, občas je to mimik.','Nová kouzla: Řetězový blesk, Roztavení (spustí se samo), Omráčení, Rozkol. Věštba vybírá z celého balíčku. Kouzla vybíráš vždy ze dvou.','Nové Roomy: Strážnice (relikvie), Knihovna, Krysí král, chodby s pastmi. Studna +3/+4/+5 max ♥.','Odměny za bosse: víc max ♥, vylepšení relikvie, kouzla.','Monstra se občas rozpadnou na dvě, občas přijde netopýr nebo duch. Duch jde zabít zbraní, ale otupí ji o 2.','Lektvar výdrže a neviditelnost: vyléčí X a přidají X účinku.','Žolík: jednou za Room smíš utéct znovu.','Klíč nebo truhlu můžeš zahodit na batoh.','Kratší popisky, nové animace (mince z truhly, roztavení, šíp luku).']],
  ['v1.30','11. 10.',['Při přetahování karty lišta životů ukáže, kolik ti zbude (lebka = smrt).','Popisky při přetahování: síla zbraně, účinek zbroje, léčení očarované zbraně.','Pod balíčkem tenký proužek s poměrem druhů karet.','Opraveno poskakování obrazovky při změně životů a při přetahování.']],
@@ -1509,7 +1510,7 @@ function modal(){
   }
   else if(S.screen==='loot'&&S.lootBoss)h=`<h2>${S.lootT}</h2><div class="lootrow">${S.loot.map(i=>`<div class="mini">${cardHTML(i)}</div>`).join('')}</div><p>${S.lootD}</p><p class="d">Karty se přidají do balíčku a ten se zamíchá.</p><div class="btns"><button class="b go" data-act="take">Přidat do balíčku</button></div>`;
   else if(S.screen==='reward'){const P=S.rewPrev,mini=i=>`<div class="mini">${cardHTML(i)}</div>`,rl=S.rewL||0,show={sp:`<div class="lootrow">${(P.sp||[]).map(mini).join('')}</div>`,rel:`<span class="fx" style="color:var(--armor)"><svg viewBox="0 0 64 64" style="width:56px;height:56px;fill:none;stroke:currentColor;stroke-width:3">${G['rl_'+(((S.relics||[]).find(x=>x.lv<3)||{}).k||'ring')]}</svg></span>`,hp:`<span class="fx" style="color:var(--monster)">+${[6,10][rl]} ♥</span>`,gold:`<div class="lootrow">${mini(P.g)}</div>`,up:UPI,w:mini(P.w),p:mini(P.p)};
-    h=`<h2>Odměna za bosse</h2><p>Vyber si jednu ze dvou odměn.</p><div class="tiles">`+S.rewOpts.map(i=>[Object.assign({},REW[i],REWL(REW[i].k,rl)),i]).map(([r,i])=>`<button class="tile sm" data-act="rew" data-i="${i}"><h3>${r.n}</h3><div class="tc">${show[r.k]}</div><span class="ds">${r.d}</span></button>`).join('')+`</div>`;}
+    h=`<h2>Odměna za bosse</h2>${S.bossBuffN?`<p class="d" style="color:var(--monster)">Podzemí ztemnělo: ${S.bossBuffN} monster v balíčku natrvalo zesílilo o 1.</p>`:''}<p>Vyber si jednu ze dvou odměn.</p><div class="tiles">`+S.rewOpts.map(i=>[Object.assign({},REW[i],REWL(REW[i].k,rl)),i]).map(([r,i])=>`<button class="tile sm" data-act="rew" data-i="${i}"><h3>${r.n}</h3><div class="tc">${show[r.k]}</div><span class="ds">${r.d}</span></button>`).join('')+`</div>`;}
   else if(S.screen==='loot'&&S.lootPick&&false)h=`<h2>V truhle je…</h2><p>Vyber si jednu možnost. Nový předmět půjde naspod balíčku, vylepšení se projeví hned na kartě, kterou už máš.</p><div class="tiles lootpick">`+S.loot.map(i=>`<button class="tile" data-act="lpick" data-id="${i}"><h3>${optName(i)}</h3><div class="tc"><div class="mini">${cardHTML(i)}</div></div><span class="ds">${optDesc(i)}</span></button>`).join('')+`</div><div class="btns"><button class="b" data-act="toss">Nic si nevzít</button></div>`;
   else if(S.screen==='loot'){
     const c=CARDS[S.loot[0]],mim=c.mimic;
@@ -1758,6 +1759,7 @@ function nextStep(){
   S.debuff={};S.buff={}; // Room-only weakening/strengthening ends with the Room (shop, campfire and offers show base values)
   if(S.mode==='camp'&&!TUT.on&&!S.boss&&(S.roomNo%BP===3||S.roomNo%BP===6)&&S.calmAt!==S.roomNo){openCalm();return;}
   if(S.roomNo>=NROOM){S.screen='final';S.history=[];{const d0=META.d||0;awardShards(NROOM);S.diaGain=(S.diaGain||0)+((META.d||0)-d0);statEnd('win');}render([]);return;}
+  if(S.boss&&S.bossBuffAt!==S.roomNo){S.bossBuffAt=S.roomNo;let n=0;S.comp.forEach(i=>{const c=CARDS[i];if(c.type==='m'&&!c.boss&&!c.gone&&!c.temp&&!c.fire&&!c.trap&&!c.dart&&!c.ghost&&!c.bat&&!c.rat&&!c.mimic){c.v++;n++;}});S.bossBuffN=n;}
   if(S.boss){S.hp=S.max;const rl=S.rewL=Math.max(0,Math.min(1,Math.floor(S.roomNo/BP)-1));S.rewPrev={g:mk('g'),w:mk('w',[10,13][rl],'♦'),p:mk('p',[10,13][rl],'♥')};CARDS[S.rewPrev.g].lv=2;{const own=S.comp.map(i=>CARDS[i].sp).filter(Boolean);S.rewPrev.sp=shuffle(Object.keys(SN)).sort((x,y)=>own.includes(x)-own.includes(y)).slice(0,rl+1).map(k=>{const i=mk('x',undefined,'✦');CARDS[i].sp=k;return i;});}S.rewOpts=shuffle([0,2,3,4,6].concat(relUpOK()?[5]:[]).concat(S.comp.some(i=>CARDS[i].type==='g'&&LVI(CARDS[i])<2)?[1]:[])).slice(0,2);stat(C=>S.rewOpts.forEach(i=>inc(C.rewOff,REW[i].k)));S.screen='reward';S.history=[];render([]);return;}
   offerNext();
 }
@@ -1785,10 +1787,10 @@ function bloodAltar(kind){
 // calm corridor (after Rooms 3 and 6 of each level) = the only shop: each offer once, buy anything you can afford
 const cF=f=>3+.6*f,rollS=(c,sp)=>Math.max(2,Math.round(c*(1-sp+2*sp*Math.random())));
 const SPEC=[{nm:'Luk',g:'bow',wk:'bow',tip:'Po zabití zažene silnější vyložené monstrum naspod (−1).'},{nm:'Kopí',g:'spear',wk:'spear',tip:'Zabije i silnější monstrum, ale zlomí se.'},{nm:'Sekera',g:'axe',wk:'axe',tip:'Každé zabití: sekera −2.'},{nm:'Lektvar výdrže',g:'stam',stam:1},{nm:'Neviditelnost',inv:1}];
-function mkSpec(r,f){const o=SPEC[r],w=r<3,v=w?rollS(.8*cF(f),.2):Math.max(2,rollS(.5*cF(f),.2));const i=mkX(w?'w':'p',r===2?v*2:v,Object.assign({},o));return {id:i,price:w?9+Math.floor(v/3):7+Math.floor(v/3)};}
+function mkSpec(r,f){const o=SPEC[r],w=r<3,aL=Math.max(4,Math.round(cF(f))),aH=Math.round(aL*1.45),ax=aL+rnd(aH-aL+1),hv=Math.max(2,Math.round(ax/2)),v=w?(r===2?ax:hv):Math.max(2,rollS(.5*cF(f),.2));const i=mkX(w?'w':'p',v,Object.assign({},o));return {id:i,price:w?9+Math.floor(hv/3):7+Math.floor(v/3)};}
 function openCalm(){
   const f=FR(S.roomNo),c=cF(f),lv=LVN(),off=[];
-  const bs=rollS(c,.4);if(Math.random()<.6){const w=mk('w',bs,'♦');off.push({id:w,price:6+Math.floor(bs/3),kind:'card'});}else{const pp=mk('p',bs,'♥');off.push({id:pp,price:4+Math.floor(bs/3),kind:'card'});}
+  const bL=Math.max(2,Math.round(c*.6)),bH=Math.max(bL,Math.round(bL*1.5)),bs=bL+rnd(bH-bL+1);if(Math.random()<.6){const w=mk('w',bs,'♦');off.push({id:w,price:6+Math.floor(bs/3),kind:'card'});}else{const pp=mk('p',bs,'♥');off.push({id:pp,price:4+Math.floor(bs/3),kind:'card'});}
   {const x=mkSpec(rnd(5),f);off.push({id:x.id,price:x.price,kind:'card'});}
   {const own=S.comp.map(i=>CARDS[i].sp).filter(Boolean),k=shuffle(Object.keys(SN)).sort((x,y)=>own.includes(x)-own.includes(y))[0],i=mk('x',undefined,'✦');CARDS[i].sp=k;off.push({id:i,price:13,kind:'card'});}
   shuffle(RKEYS.filter(k=>!rl(k))).slice(0,2).forEach(k=>off.push({id:mkRel(k,1),price:15,kind:'relic'}));
