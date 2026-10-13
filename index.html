@@ -416,7 +416,7 @@ const STIP={
  tele:'Vyložené karty jdou naspod. Ze 6 karet z vršku si 4 vyložíš.',
  ench:'Očaruje vyloženou zbraň: každé zabití +1 síla a +1 ♥.',
  dup:'Zkopíruje vyloženou zbraň, lektvar nebo kouzlo (na tento Room).',
- vest:'Vybereš si z balíčku libovolnou kartu a hned ji vyložíš.',
+ vest:'Vybereš si z balíčku libovolnou kartu (kromě pokladů) a hned ji vyložíš.',
  stun:'Monstrum jde naspod s poloviční silou a ty se vyléčíš o druhou polovinu. Ne na bosse.',
  split:'Rozpůlí monstrum, půlky jdou naspod. Ne na bosse.',
  enh:'Vyložené zbraně a lektvary +4.',
@@ -1182,7 +1182,7 @@ function rozkol(id,target){
 function cast(id){
   const sp=CARDS[id].sp,slot=S.room.indexOf(id);
   S.room[slot]=null;S.resolved++;S.lastSpell=id;if(sp!=='vest')spellFx(id);
-  if(sp==='vest'){const ids=shuffle(S.deck.filter(i=>!INST(i)));if(!ids.length){spellFx(id);say('Věštba neukázala nic.');finish();return;}S.history=[];S.pick={ids,need:1,mode:'map',sel:[],slot,vest:id};S.screen='pick';render([]);return;}
+  if(sp==='vest'){const ids=shuffle(S.deck.filter(i=>!INST(i)&&!'gkc'.includes(CARDS[i].type)));if(!ids.length){spellFx(id);say('Věštba neukázala nic.');finish();return;}S.history=[];S.pick={ids,need:1,mode:'map',sel:[],slot,vest:id};S.screen='pick';render([]);return;}
   if(sp==='aura'){live().forEach(i=>fxSparkle(cardRect(i),'rgba(229,139,196,1)'));
     live().forEach(i=>{const c=CARDS[i];if(c.type==='m'&&!c.trap&&!c.dart)S.debuff[i]=(S.debuff[i]||0)+4;});
     S.deck.push(...shuffle(live()));S.room=[null,null,null,null];
