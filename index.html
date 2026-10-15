@@ -530,6 +530,12 @@ body.artnew.arttar .card.boss{border:0;border-image:none;background:repeating-co
 body.artnew.arttar .card.boss .n{background:#0c0a0b;color:#f6d27a;box-shadow:0 0 0 calc(var(--cw)*.016) #d9a030,0 0 0 calc(var(--cw)*.034) #0c0a0b,0 calc(var(--cw)*.03) calc(var(--cw)*.04) #000a}
 body.artnew.arttar .card.tmp{background:repeating-linear-gradient(135deg,#1a1617 0 6px,#141112 6px 12px)}
 body.artnew.arttar .card.up{box-shadow:inset 0 0 0 calc(var(--cw)*.012) #5a4e48,inset 0 0 0 calc(var(--cw)*.03) #141112,inset 0 0 0 calc(var(--cw)*.042) var(--c),inset 0 0 0 calc(var(--cw)*.06) #141112,inset 0 0 0 calc(var(--cw)*.066) #f2c460,0 6px 14px #000c}
+body.artnew.arttar .card.ench{box-shadow:inset 0 0 0 calc(var(--cw)*.028) #e872c8,inset 0 0 calc(var(--cw)*.24) #c03aa0d0;animation:enchT 1.8s ease-in-out infinite alternate}
+body.artnew.arttar .card.ench svg.ink{filter:drop-shadow(0 0 calc(var(--cw)*.05) #e060c0) drop-shadow(0 0 calc(var(--cw)*.02) #ff9ae0)}
+body.artnew.arttar .card.ench .n{color:#ffb0e8;text-shadow:0 0 6px #d050b0}
+@keyframes enchT{to{box-shadow:inset 0 0 0 calc(var(--cw)*.028) #ff9ae0,inset 0 0 calc(var(--cw)*.34) #d84cb8f0}}
+body.artnew.arttar .card.rune{box-shadow:inset 0 0 0 calc(var(--cw)*.028) #b49cec,inset 0 0 calc(var(--cw)*.22) #8a6ad0c0}
+@media (prefers-reduced-motion:reduce){body.artnew.arttar .card.ench{animation:none}}
 body.artnew.arttar .card.bloody::before,body.artnew.arttar .card.bloodw::before{opacity:.6}
 body.artnew.arttar .deck::before{border:0;border-image:none;inset:calc(var(--cw)*.05);border:calc(var(--cw)*.012) solid #c0392b88;border-radius:2px}
 body.artnew.arttar .deck{border-radius:4px;background:repeating-conic-gradient(from 0deg at 50% 46%,#c0392b14 0 4deg,transparent 4deg 15deg),radial-gradient(circle at 50% 46%,#4a1410 0 34%,#1a0c0c 35%,#120808 100%);box-shadow:0 0 0 1px #000,3px 3px 0 #000,6px 6px 0 #0a0708}
@@ -1306,7 +1312,7 @@ const inc=(o,k,n)=>{o[k]=(o[k]||0)+(n===undefined?1:n);};
 function stat(fn){if(!statOn())return;try{fn(STATS.C);statSave();}catch(e){}}
 function addGold(n){S.gold+=n;if(statOn())S.goldEarn=(S.goldEarn||0)+n;}
 const monAvg=()=>{const m=S.comp.filter(i=>CARDS[i].type==='m'&&!CARDS[i].boss);return m.length?m.reduce((a,i)=>a+CARDS[i].v,0)/m.length:0;};
-const GAMEVER='v1.92';
+const GAMEVER='v1.94';
 const BP=7,NROOM=21; // boss every 7th Room, 3 bosses
 const FR=nr=>nr-Math.floor(nr/BP),NFIGHT=18; // fight-room number 1..18 (bosses excluded)
 function runRec(end){
@@ -1348,6 +1354,8 @@ function openGal(){
 }
 // patch notes for players: newest first, short and general
 const PATCH=[
+ ['v1.94','15. 10.',['Krvavý oltář stojí 5 max ♥.','Studna dává vždy +3 max ♥.']],
+ ['v1.93','15. 10.',['Po 1. a 2. bossovi Ohniště: vylosuje tvé kouzlo, lektvar nebo zbraň, která shoří. Za −1 max ♥ můžeš losovat znovu, odmítnuté karty se nevrací, dokud se neprotočí všechny.','Očarovaná zbraň v tarotovém vzhledu svítí fialově.']],
  ['v1.92','14. 10.',['Věštba řadí karty podle druhu a síly, neprozradí pořadí v balíčku.','Výběr kouzla se na mobilu vejde na obrazovku.','Report obsahuje případné chyby hry.']],
  ['v1.91','14. 10.',['Nový vzhled karet ve stylu tarotu (výchozí). Původní vzhled zůstal jako „alpha“, přepneš ho tlačítkem 🖌.','Temnější hudba a zvuky, krev, otřesy při zásahu, živé počasí u bossů a každý boss má svůj zvuk, když se vytáhne.','Dva noví bossové: Masožravá kytka se šlahouny a zbabělý Kyklop. Hydra, Chobotnice a Drak jsou silnější.','Výdrž se nově jmenuje zbroj. Krystal many dává na začátku místnosti 2 / 4 / 6 zbroje a +1 za každé kouzlo.','Grimoár: každé Roztavení počítá zbraň o 1 silnější. Terror nejde seslat na bosse.','Bonusový útěk (dřív žolík) má fialové tlačítko.','Přepsané popisky všech karet a relikvií, bubliny nad kartami mají víc řádků.','Plynulejší hra na mobilu díky odlehčené grafice.']],
  ['v1.80','13. 10.',['Po každém bossovi jsou nově nabízená základní monstra o 1 silnější.','Obchod: základní zbraně a lektvary mají menší rozptyl síly.','Sekera je silnější hned od začátku a má menší rozptyl, Luk a Kopí mají polovinu její síly.']],
@@ -1494,7 +1502,7 @@ function regenTile(t,nr,avoidGold){
   if(t.vault)t.cards=[mk('m',Math.max(2,Math.floor(RR(f)[0]/2)),su()),rnd(2)?mkBat(BATN(f)):mkGhost(GHN(f))];
   else if(t.mon)t.cards=[...monsAt(nr,t.mon==='hi',GOLDROOMS.includes(t.name)?t.gold-gb:null,!!t.vault),...(t.vault?[rnd(2)?mkBat(BATN(f)):mkGhost(GHN(f))]:[])];
   else if(t.ratk){t.cards=[mkRat(5+2*lv)];t.gold=Math.ceil(1.5*chestG(f));t.desc='Získej '+t.gold+' zlata.\nKrysa trvale roste na síle při každém útěku od ní.';}
-  else if(t.altar){t.cards=[];t.alt=['ench','split','swap'][rnd(3)];t.desc='−4 max ♥\n'+ALT[t.alt];}
+  else if(t.altar){t.cards=[];t.alt=['ench','split','swap'][rnd(3)];t.desc='−5 max ♥\n'+ALT[t.alt];}
   else if(t.k==='trap'){
     const dart=rnd(2);Object.assign(t,dart?{name:'Šipkový koridor',haz:'dart',desc:'Získej zlato.\nŠipka, která tě zraní, pokud od ní utečeš.'}:{name:'Chodba s pastmi',haz:'trap',desc:'Získej zlato.\nPast, před kterou nelze utéct.'});
     t.cards=[dart?mkDart(0,5+HAZ(f)):mkTrap(0,3+HAZ(f))];
@@ -1508,7 +1516,7 @@ function makePool(lv){
     {k:'upg2',name:'Kovárna',mon:'hi',upg:'wp',cards:[],desc:FORGED},
     {k:'spell',name:'Knihovna',mon:'hi',spell:1,cards:[],desc:'Naučíš se jedno ze dvou kouzel'},
     {k:'vault',name:'Klenotnice',mon:'hi',vault:1,dia:lv+1,cards:[],desc:'Získej '+diaT(lv+1)},
-    {k:'well',name:'Studna',mon:'lo',well:1,wellN:3+lv,cards:[],desc:'+'+(3+lv)+' max ♥ a plné vyléčení'},
+    {k:'well',name:'Studna',mon:'lo',well:1,wellN:3,cards:[],desc:'+3 max ♥ a plné vyléčení'},
     {k:'gold',name:'Krypta',mon:'lo',gold:4,cards:[],desc:''},
     {k:'ward',name:'Strážnice',ward:1,cards:[],desc:'Získej nebo vylepši jednu ze dvou relikvií.\nVšechna monstra budou v této místnosti o 1–2 silnější.'},
     {k:'trap',name:'Chodba s pastmi',haz:'trap',trap:1,cards:[],desc:''},
@@ -1586,7 +1594,7 @@ function roomTile(t,n){
   if(t.vault)pos.push(pi(ICO.dia,'+'+diaT(t.dia||2),t.desc,'var(--dia)'));
   if(t.well)pos.push(pi(ICO.heart,'+'+(t.wellN||3)+' max, léčení',t.desc,'var(--potion)'));
   if(t.ward)pos.push(pi(G.s,'relikvie',t.desc,'var(--armor)'),pi(ICO.up,'monstra +1–2',t.desc,'var(--monster)'));
-  if(t.altar)pos.push(pi(ICO.heart,ALTN[t.alt]+' · −4 max ♥',t.desc,'var(--monster)'));
+  if(t.altar)pos.push(pi(ICO.heart,ALTN[t.alt]+' · −5 max ♥',t.desc,'var(--monster)'));
   if(t.boss)pos.push(pi(ICO.star,'odměna','Boss se speciální odměnou'));
   const spec=[...new Set(mons.map(c=>CARDS[c]).filter(c=>c.nm||c.boss).map(c=>c.nm+': '+tipOf(c)))].join(' ');
   const ntip='Tato monstra se přidají do tvého balíčku.'+(spec?' '+spec:'');
@@ -2275,8 +2283,9 @@ function modal(){
     h=roomIn({name:'Ohniště'},`<h2>Ohniště</h2><p class="lore">Plameny praskají. Co do nich hodíš, už se nevrátí.</p><p>Životy doplněny na <b style="color:var(--monster)">${S.max} ♥</b>. Spal monstra z balíčku do součtu síly <b>${R.b}</b>. Za každé 2 nevyužité body dostane náhodná zbraň nebo lektvar +1.</p><div class="pks dvsm${R.ids.length>14?' dvxs':''}">${R.ids.map(i=>{const on=R.sel.includes(i),dis=!on&&CARDS[i].v>left;return `<button class="pk${on?' on':''}" data-act="rpk" data-id="${i}" ${dis?'disabled style="opacity:.35"':''}>${cardHTML(i)}</button>`;}).join('')}</div><div class="restc"><span>Spáleno <b style="color:var(--monster)">${sum}</b> / ${R.b} · zbývá ${left} → <b style="color:var(--torch)">${n}× vylepšení +1</b></span></div><div class="btns"><button class="b go" data-act="restok">${R.sel.length?'Spálit a pokračovat':'Nic nespálit · '+n+'× vylepšení'}</button></div>`);}
   else if(S.screen==='restup')h=roomIn({name:'Ohniště'},`<h2>Ohniště</h2><p>Nevyužitá síla plamenů zakalila tvé vybavení:</p><div class="rupw">${S.restUp.map((u,k)=>`<div class="mini rup" style="animation-delay:${(k*.14).toFixed(2)}s">${cardHTML(u.id)}<span class="rupn" style="animation-delay:${(k*.14+.25).toFixed(2)}s">+${u.n}</span></div>`).join('')}</div><div class="btns"><button class="b go" data-act="rupok">Pokračovat</button></div>`);
   else if(S.screen==='calm')h=calmHTML();
+  else if(S.screen==='fire')h=fireHTML();
   else if(S.screen==='altar'){const r=S.altarRes,mini=i=>`<div class="mini" style="position:relative;width:var(--cw);height:var(--ch)">${cardHTML(i)}</div>`;
-    h=`<h2>Krvavý oltář</h2><p class="lore">Krev steče po kameni a oltář si vezme svůj díl: maximum životů −4.</p><h3 style="margin:6px 0">${ALTN[r.kind]}</h3><div style="display:flex;gap:12px;justify-content:center;align-items:center;margin:8px 0;--cw:84px;--ch:119px">${r.before.map(mini).join('')}${r.before.length&&r.after.length?'<span style="font-size:28px;color:var(--torch)">→</span>':''}${r.after.map(mini).join('')}</div><p>${r.txt}</p><div class="btns"><button class="b go" data-act="altarok">Vstoupit do Roomu</button></div>`;}
+    h=`<h2>Krvavý oltář</h2><p class="lore">Krev steče po kameni a oltář si vezme svůj díl: maximum životů −5.</p><h3 style="margin:6px 0">${ALTN[r.kind]}</h3><div style="display:flex;gap:12px;justify-content:center;align-items:center;margin:8px 0;--cw:84px;--ch:119px">${r.before.map(mini).join('')}${r.before.length&&r.after.length?'<span style="font-size:28px;color:var(--torch)">→</span>':''}${r.after.map(mini).join('')}</div><p>${r.txt}</p><div class="btns"><button class="b go" data-act="altarok">Vstoupit do Roomu</button></div>`;}
   else if(S.screen==='tax'){const n=S.taxN||1,sel=S.taxSel||[];h=`<h2>Oběť za další patro</h2><p class="lore">Cesta dolů něco stojí. Podzemí si vezme svůj díl.</p><p>Vyber ${n===1?'jednu kartu, která':n+' karty, které'} natrvalo odejdou z tvého balíčku.</p><div class="pks rest5">`+S.tax.map(id=>`<button class="pk${sel.includes(id)?' on':''}" data-act="taxpk" data-id="${id}">${cardHTML(id)}</button>`).join('')+`</div><div class="btns"><button class="b go" data-act="taxok" ${sel.length<n?'disabled':''}>Obětovat</button></div>`;}
   else if(S.screen==='meta'){const cost=metaCost(),ids=[...S.metaW,...S.metaP];
     h=roomIn({name:'Oltář'},`<h2>Oltář předků</h2><p>Run č. ${S.run}</p><div class="diam"><svg viewBox="0 0 64 64">${G.dia}</svg><b>${META.d||0}</b> ${(META.d||0)===1?'diamant':(META.d||0)>=2&&(META.d||0)<=4?'diamanty':'diamantů'}<span class="shs"><svg viewBox="0 0 64 64">${G.shard}</svg>${META.sh||0}/10 úlomků</span></div><p class="d">Každé vylepšení dá náhodné zbrani nebo lektvaru ze startovního balíčku +1 a zvedne startovní maximum životů o 1. Platí natrvalo pro všechny další runy, každé další vylepšení stojí o diamant víc.</p><p style="margin:0 0 10px">Startovní životy: <b style="color:var(--monster)">${S.max} ♥</b></p><div class="dv">${ids.map(i=>`<div class="mini${i===S.metaLast?' hl':''}">${cardHTML(i)}</div>`).join('')}</div>${S.metaLast!=null?`<p class="d" style="margin:0 0 10px">${CARDS[S.metaLast].type==='w'?'Zbraň':'Lektvar'} ${CARDS[S.metaLast].v-1} → ${CARDS[S.metaLast].v} natrvalo, maximum životů +1.</p>`:''}<div class="btns"><button class="b" data-act="mup" ${(META.d||0)<cost?'disabled':''}>Vylepšit náhodnou kartu · ${cost} ◆</button><button class="b go" data-act="mgo">Do podzemí</button></div>`);}
@@ -2304,7 +2313,7 @@ function modal(){
   if(h&&(S.screen==='pick'||S.screen==='loot')&&!viewDeck&&!viewAdd)h+=`<div class="btns" style="margin-top:10px"><button class="b" data-act="peek">Schovat okno a prohlédnout hrací plochu</button></div>`;
   if(peek&&!(S.screen==='pick'||S.screen==='loot'))peek=false;
   $('peekBtn').hidden=!peek;
-  v.innerHTML=h;o.hidden=!h||peek;v.classList.toggle('wide',!menuOpen&&viewAdd||!menuOpen&&!viewDeck&&(S.screen==='choose'||S.screen==='calm'||S.screen==='spell'||S.screen==='meta'||S.screen==='rest'||S.screen==='restup'||S.screen==='vault'||S.screen==='upgrade'));
+  v.innerHTML=h;o.hidden=!h||peek;v.classList.toggle('wide',!menuOpen&&viewAdd||!menuOpen&&!viewDeck&&(S.screen==='choose'||S.screen==='calm'||S.screen==='spell'||S.screen==='meta'||S.screen==='rest'||S.screen==='restup'||S.screen==='fire'||S.screen==='vault'||S.screen==='upgrade'));
 }
 function onAct(e){
   const b=e.target.closest('[data-act]');if(!b)return;
@@ -2329,6 +2338,8 @@ function onAct(e){
   else if(a==='rpk'){const R=S.rest,id=+b.dataset.id,k=R.sel.indexOf(id);if(k>=0)R.sel.splice(k,1);else{const sum=R.sel.reduce((x,i)=>x+CARDS[i].v,0);if(sum+CARDS[id].v<=R.b)R.sel.push(id);}modal();}
   else if(a==='restok')restBurn();
   else if(a==='rupok'){S.restUp=null;offerNext();}
+  else if(a==='fireok'){const F=S.fire;if(!F)return;const id=F.cur;S.comp=S.comp.filter(x=>x!==id);S.deck=(S.deck||[]).filter(x=>x!==id);S.removed=(S.removed||0)+1;stat(C=>{C.fire=C.fire||{};inc(C.fire,CARDS[id].type==='w'?'zbraň':CARDS[id].type==='p'?'lektvar':'kouzlo');C.fireRe=(C.fireRe||0)+F.n;});snd('discard');say(nameOf(CARDS[id])+' shořela v ohništi.');S.fire=null;offerNext();}
+  else if(a==='firere'){const F=S.fire;if(!F)return;const v=fireOK();if(v.length<2||S.max<=1)return;S.max--;S.hp=Math.min(S.hp,S.max);F.n++;if(!F.pool.length)F.pool=shuffle(v.filter(i=>i!==F.cur));F.cur=F.pool.pop();snd('equip');render([]);}
   else if(a==='rewok'){S.rewUp=null;S.rewNote=null;afterReward();}
   else if(a==='pick'){
     if(S.selOff!==+b.dataset.i){S.selOff=+b.dataset.i;modal();return;}
@@ -2512,9 +2523,19 @@ function bossTileFor(k,lv){
 }
 // campfire after the 1st and 2nd boss: full heal, burn monsters/traps from the deck within a strength budget
 const RESTCAP=[10,20];
-function afterReward(){offerNext();} // Ohniště removed in v1.68 (deck ratio); boss fight already heals to full
+function afterReward(){openFire();} // after bosses 1 and 2: campfire burns one of your good cards
+const fireOK=()=>S.comp.filter(i=>{const c=CARDS[i];return (c.type==='x'||c.type==='p'||c.type==='w')&&!c.temp&&!c.fire&&!c.gone;});
+function openFire(){
+  const v=fireOK();if(!v.length){offerNext();return;}
+  const pool=shuffle(v.slice());S.fire={pool,cur:pool.pop(),n:0};S.screen='fire';S.history=[];render([]);
+}
+function fireHTML(){
+  const F=S.fire,c=CARDS[F.cur],v=fireOK(),can=v.length>1&&S.max>1;
+  const kind=c.type==='x'?'kouzlo':c.type==='p'?'lektvar':'zbraň';
+  return roomIn({name:'Ohniště'},`<h2>Ohniště</h2><p class="lore">Plameny si žádají oběť. Ukazují na jednu z tvých karet.</p><div class="lootc">${cardHTML(F.cur)}</div><p>${nameOf(c)} (${kind}) shoří a natrvalo odejde z balíčku.</p><p class="d">Můžeš oheň uplatit: za −1 max ♥ se vylosuje jiná karta. Odmítnuté karty se do losování nevrátí, dokud se neprotočí všechny.${F.n?` Odmítnuto: ${F.n}×.`:''}</p><p class="d">Maximum životů <b style="color:var(--monster)">${S.max} ♥</b> · v losování zbývá ${F.pool.length||Math.max(0,v.length-1)}</p><div class="btns"><button class="b go" data-act="fireok">Spálit</button><button class="b" data-act="firere" ${can?'':'disabled'}>Losovat jinou · −1 max ♥</button></div>`);
+}
 function bloodAltar(kind){
-  S.max=Math.max(1,S.max-4);S.hp=Math.min(S.hp,S.max);
+  S.max=Math.max(1,S.max-5);S.hp=Math.min(S.hp,S.max);
   const C=S.comp.filter(i=>!CARDS[i].temp),W=C.filter(i=>CARDS[i].type==='w'),P=C.filter(i=>CARDS[i].type==='p');
   const M=C.filter(i=>{const c=CARDS[i];return c.type==='m'&&!c.boss&&!c.trap&&!c.dart&&!c.fire&&!c.ghost&&!c.bat&&!c.rat&&!c.mimic;});
   if(kind==='dup')kind='swap';if(kind==='ench'&&!W.length)kind=P.length?'swap':'split';if(kind==='swap'&&!P.length)kind=W.length?'ench':'split';

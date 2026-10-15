@@ -1,5 +1,5 @@
 // Underdeck offline cache: always try the network first (so updates show up), fall back to the cached copy
-const C='underdeck-v1';
+const C='underdeck-v194';
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(C).then(c=>c.addAll(['./','index.html','manifest.webmanifest','icon-192.png','icon-512.png'])));});
 self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));
 self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;
